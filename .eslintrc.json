@@ -23,6 +23,7 @@
     ],
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "react/prefer-stateless-function": [1, { "ignorePureComponents": true }]
+        "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+        "comma-dangle": ["error", "never"]
     }
 }

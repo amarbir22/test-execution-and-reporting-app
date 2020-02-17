@@ -5,7 +5,8 @@ module.exports = {
   entry: './client/src/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index-bundle.js'
+    filename: 'index-bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -25,8 +26,8 @@ module.exports = {
       template: './client/src/index.html'
     })
   ],
-  devtool: 'cheap-module-eval-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, './dist')
+    contentBase: path.resolve(__dirname, './dist'),
+    historyApiFallback: true
   }
 };
