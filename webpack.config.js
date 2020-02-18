@@ -18,12 +18,24 @@ module.exports = {
       {
         test: /\.s?css$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.(jpe?g|gif|png|svg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
+          }
+        ]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/src/index.html'
+      template: './client/src/index.html',
+      favicon: './client/public/static/images/favicon.ico'
     })
   ],
   devServer: {

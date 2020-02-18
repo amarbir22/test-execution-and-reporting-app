@@ -5,7 +5,7 @@ import React from 'react';
 class Home extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="container py-md-4">
         <h1>Placeholder for home</h1>
       </div>
     );
