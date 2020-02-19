@@ -3,8 +3,6 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 
 
-var proxy = require('express-http-proxy');
-
 const PORT = process.env.PORT || 5000;
 require('dotenv')
   .config();
@@ -27,11 +25,9 @@ app.get('/alive', (req, res) => {
 });
 
 app.post('/upload', (req, res) => {
-  console.log("Req" + JSON.stringify(req.files));
-
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400)
-      .send({ error: 'No files were uploaded.' });
+      .send({ errorMessage: 'Did you forget to attach the file ?' });
   }
 
   const file = req.files && req.files.file;
@@ -39,16 +35,16 @@ app.post('/upload', (req, res) => {
   file.mv(`${__dirname}/client/public/uploads/${file.name}`, (err) => {
     if (err) {
       return res.status(500)
-        .send(err);
+        .send({ errorMessage: 'Server side error while writing file' });
     }
 
-    return res.status(200).send({
-      fileName: file.name,
-      filePath: `/uploads/${file.name}`
-    });
+    return res.status(200)
+      .send({
+        fileName: file.name,
+        filePath: `/uploads/${file.name}`
+      });
   });
-
-  return res.status(500);
+  // TODO: getting a weird error when putting a return statement here.
 });
 
 // eslint-disable-next-line no-console

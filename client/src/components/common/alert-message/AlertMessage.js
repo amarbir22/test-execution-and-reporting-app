@@ -33,7 +33,7 @@ AlertMessage.propTypes = {
   alertHeading: PropTypes.string.isRequired,
   alertMessage: PropTypes.string.isRequired,
   isShowAlertButton: PropTypes.bool,
-  alertVariant: PropTypes.string.isRequired,
+  alertVariant: PropTypes.string.isRequired
 };
 
 AlertMessage.defaultProps = {

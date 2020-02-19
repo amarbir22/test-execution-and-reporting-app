@@ -1,61 +1,49 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 import AlertMessage from '../common/alert-message/AlertMessage';
+import { uploadFile } from '../../actions/fileUploadActions';
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
   const [filename, setFilename] = useState('Choose File');
-  const [uploadedFile, setUploadedFile] = useState({});
-  const [message, setMessage] = useState({});
+  const fileUpload = useSelector((state) => state.fileUpload);
+  const errors = useSelector((state) => state.errors);
+  const dispatch = useDispatch();
+
+  const { errorMessage } = errors;
 
   const uploadStatus = {
-    alertHeading: (message.error) ? 'Error Uploading File' : 'File Uploaded',
-    alertMessage: message.error || `Filename: ${uploadedFile.fileName} Path: ${uploadedFile.filePath}`,
-    alertVariant: (message.error) ? 'danger' : 'success',
-    alertShow: Object.keys(message).length !== 0
+    alertHeading: (errorMessage) ? 'Error uploading' : 'File uploaded',
+    alertMessage: errorMessage || `Filename: ${fileUpload.fileName} Path: ${fileUpload.filePath}`,
+    alertVariant: (errorMessage) ? 'danger' : 'success'
   };
 
   const onChange = (e) => {
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+    if (e.target.files.length) {
+      setFile(e.target.files[0]);
+      setFilename(e.target.files[0].name);
+    }
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    setMessage({});
-    const formData = new FormData();
-    formData.append('file', file);
 
-    try {
-      const res = await axios.post('/api/upload', formData, {});
-      const { fileName, filePath } = res.data;
-      setUploadedFile({
-        fileName,
-        filePath
-      });
-      setMessage({
-        body: 'File Uploaded',
-        statusCode: res.status
-      });
-    } catch (err) {
-      setMessage({
-        error: err.response.data.msg || 'There was a server error in uploading file.',
-        statusCode: err.response.status
-      });
-    }
+    dispatch(uploadFile(file));
+    uploadStatus.alertShow = true;
   };
 
   return (
     <>
       {
-        message.statusCode
+        (fileUpload.isLoaded || errors.errorMessage)
         && (
-        <AlertMessage
-          alertHeading={uploadStatus.alertHeading}
-          alertMessage={uploadStatus.alertMessage}
-          alertVariant={uploadStatus.alertVariant}
-        />
+          <AlertMessage
+            alertHeading={uploadStatus.alertHeading}
+            alertMessage={uploadStatus.alertMessage}
+            alertVariant={uploadStatus.alertVariant}
+          />
         )
       }
       <form onSubmit={onSubmit}>
