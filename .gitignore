@@ -104,3 +104,6 @@ dist
 
 # IDE
 .idea
+
+# Public uploaded files
+client/public/uploads

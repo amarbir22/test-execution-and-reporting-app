@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const API_HOST = process.env.API_HOST || 'http://localhost:5000';
+
 
 module.exports = {
-  entry: './client/src/index.js',
+  entry: ['@babel/polyfill', './client/src/index.js'],
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'index-bundle.js',
@@ -40,6 +42,16 @@ module.exports = {
   ],
   devServer: {
     contentBase: path.resolve(__dirname, './dist'),
-    historyApiFallback: true
+    historyApiFallback: true,
+    disableHostCheck: true,
+    proxy: {
+      '/api': {
+        target: API_HOST,
+        pathRewrite: { '^/api': '' },
+        secure: false
+      },
+      secure: false,
+      changeOrigin: true
+    }
   }
 };
