@@ -1,6 +1,6 @@
 import React from 'react';
 import PerfReport from '../perf-report/PerfReport';
-import FileUpload from '../file-upload/FileUpload';
+import FileUpload from '../common/file-upload/FileUpload';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class PerformanceDashboard extends React.Component {

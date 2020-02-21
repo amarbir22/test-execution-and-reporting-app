@@ -19,7 +19,12 @@ export default function (state = initialState, action) {
         isLoaded: true
       };
     case CLEAR_FILE:
-      return {};
+      return {
+        ...state,
+        fileName: null,
+        filePath: null,
+        isLoaded: false
+      };
     default:
       return state;
   }

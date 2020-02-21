@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import AlertMessage from '../common/alert-message/AlertMessage';
-import { uploadFile } from '../../actions/fileUploadActions';
+import AlertMessage from '../alert-message/AlertMessage';
+import { uploadFile } from '../../../actions/fileUploadActions';
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
@@ -13,6 +13,10 @@ const FileUpload = () => {
   const dispatch = useDispatch();
 
   const { errorMessage } = errors;
+
+  useEffect(() => () => {
+    dispatch({ type: 'CLEAR_FILE' });
+  }, []);
 
   const uploadStatus = {
     alertHeading: (errorMessage) ? 'Error uploading' : 'File uploaded',
