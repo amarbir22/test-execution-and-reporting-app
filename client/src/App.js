@@ -10,6 +10,8 @@ import NotFound from './components/not-found/NotFound';
 import PerformanceDashboard from './components/performance-dashboard/PerformanceDashboard';
 
 import store from './store';
+import PerfReport from './components/perf-report/PerfReport';
+import './App.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component {
@@ -24,6 +26,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/performance" component={PerformanceDashboard} />
+              <Route exact path="/reporting/performance-dashboard" component={PerfReport} />
               <Route exact path="*" component={NotFound} />
             </Switch>
           </div>

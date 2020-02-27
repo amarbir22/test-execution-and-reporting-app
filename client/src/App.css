@@ -1,0 +1,8 @@
+.errorMsg {
+    color: #bf1650;
+}
+
+.errorMsg::before {
+    display: inline;
+    content: "⚠ ";
+}

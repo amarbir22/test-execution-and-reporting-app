@@ -1,6 +1,8 @@
 import React from 'react';
 import PerfReport from '../perf-report/PerfReport';
 import FileUpload from '../common/file-upload/FileUpload';
+import AddReport from '../add-report/AddReport';
+
 
 // eslint-disable-next-line react/prefer-stateless-function
 class PerformanceDashboard extends React.Component {
@@ -38,25 +40,25 @@ class PerformanceDashboard extends React.Component {
       <div className="container py-md-4">
         <h1>Placeholder for Performance Dashboard</h1>
         <p>Compare JMeter Reports</p>
-        <FileUpload />
+        <AddReport />
         <table className="table">
           <thead>
-            <tr>
-              {
-              reportFormat.headers.map((item) => (
-                <td>{item}</td>
+          <tr>
+            {
+              reportFormat.headers.map((item, i) => (
+                <td key={i}>{item}</td>
               ))
             }
-            </tr>
+          </tr>
           </thead>
           <tbody>
-            <tr>
-              {
-              reportFormat.rows.map((item) => (
-                <td>{item}</td>
+          <tr>
+            {
+              reportFormat.rows.map((item, j) => (
+                <td key={j}>{item}</td>
               ))
             }
-            </tr>
+          </tr>
           </tbody>
         </table>
         <PerfReport />

@@ -1,15 +1,7 @@
 import React from 'react';
 
-const PerfReport = () => {
-  const performanceTool = 'Jmeter';
-
+export default function PerfReport() {
   return (
-    <div>
-      {performanceTool}
-      {' '}
-      Report Placeholder
-    </div>
+    <h3>Placeholder for jmeter report</h3>
   );
-};
-
-export default PerfReport;
+}
