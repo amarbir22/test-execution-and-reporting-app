@@ -73,6 +73,16 @@ function AddReport() {
 
   return (
     <div className="container">
+      {
+        (addReportData.isLoaded || errorMessage)
+        && (
+          <AlertMessage
+            alertHeading={uploadStatus.alertHeading}
+            alertMessage={uploadStatus.alertMessage}
+            alertVariant={uploadStatus.alertVariant}
+          />
+        )
+      }
       <Form onSubmit={handleSubmit(onSubmit)}>
         <h5>Tell us about your test</h5>
         <Row>
@@ -195,12 +205,12 @@ function AddReport() {
                   rules={{ required: 'This is required' }}
                   defaultValue={moment('21:00', 'HH:mm')}
                 />
-                {errors.executionDateInput
+                {(errors.executionDate || errors.executionTime)
                 && (
                   <div
                     className="invalid-feedback d-block errorMsg"
                   >
-                    {errors.executionDateInput.message}
+                    {errors.executionDate.message}
                   </div>
                 )}
               </Form.Group>
@@ -208,16 +218,6 @@ function AddReport() {
           </Col>
           <Col>
             <div id="upload-file">
-              {
-                (addReportData.isLoaded || errorMessage)
-                && (
-                  <AlertMessage
-                    alertHeading={uploadStatus.alertHeading}
-                    alertMessage={uploadStatus.alertMessage}
-                    alertVariant={uploadStatus.alertVariant}
-                  />
-                )
-              }
               <div className="custom-file mb-2">
                 <input
                   type="file"
