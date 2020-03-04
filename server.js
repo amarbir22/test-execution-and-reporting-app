@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const connectDB = require('./config/db');
 const fileUpload = require('express-fileupload');
 
 
@@ -9,8 +10,12 @@ require('dotenv')
 
 const app = express();
 
-// initialize middleware
+connectDB();
+
+// Init Middleware
+app.use(express.json({ extended: false }));
 app.use(fileUpload());
+
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
@@ -24,6 +29,9 @@ app.get('/alive', (req, res) => {
   res.send({ express: 'Hi from backend api :)' });
 });
 
+/**
+ * Used to upload any file to public dir
+ */
 app.post('/upload', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400)
@@ -46,6 +54,10 @@ app.post('/upload', (req, res) => {
   });
   // TODO: getting a weird error when putting a return statement here.
 });
+
+// Define Routes
+app.use('/report', require('./backend/routes/api/report'));
+
 
 // eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

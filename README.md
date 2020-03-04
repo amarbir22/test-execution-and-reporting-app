@@ -10,5 +10,6 @@ npm install
 ## Start App and Server
 
 ```sh
-npm start
+MONGO_DEV_PASSWORD=ASK_AMAR_FOR_PASSWORD npm start
 ```
+Due to the dependency on the DB now the app requires a mongoDB instance URI. Plan is to mock the DB for running the app in DEV mode.

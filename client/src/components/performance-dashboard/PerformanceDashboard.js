@@ -43,22 +43,22 @@ class PerformanceDashboard extends React.Component {
         <AddReport />
         <table className="table">
           <thead>
-          <tr>
-            {
+            <tr>
+              {
               reportFormat.headers.map((item, i) => (
                 <td key={i}>{item}</td>
               ))
             }
-          </tr>
+            </tr>
           </thead>
           <tbody>
-          <tr>
-            {
+            <tr>
+              {
               reportFormat.rows.map((item, j) => (
                 <td key={j}>{item}</td>
               ))
             }
-          </tr>
+            </tr>
           </tbody>
         </table>
         <PerfReport />
