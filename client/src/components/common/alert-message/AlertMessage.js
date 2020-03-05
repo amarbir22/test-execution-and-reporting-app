@@ -16,10 +16,15 @@ function AlertMessage(props) {
   if (show) {
     return (
       <Alert variant={alertVariant} onClose={() => setShow(false)} dismissible>
-        <Alert.Heading>{alertHeading}</Alert.Heading>
-        <p>
-          {alertMessage}
-        </p>
+        {
+          alertHeading
+          && (
+            <Alert.Heading>
+              {alertHeading}
+            </Alert.Heading>
+          )
+        }
+        {alertMessage}
       </Alert>
     );
   }
@@ -30,14 +35,15 @@ function AlertMessage(props) {
 }
 
 AlertMessage.propTypes = {
-  alertHeading: PropTypes.string.isRequired,
+  alertHeading: PropTypes.string,
   alertMessage: PropTypes.string.isRequired,
   isShowAlertButton: PropTypes.bool,
   alertVariant: PropTypes.string.isRequired
 };
 
 AlertMessage.defaultProps = {
-  isShowAlertButton: false
+  isShowAlertButton: false,
+  alertHeading: null
 };
 
 export default AlertMessage;

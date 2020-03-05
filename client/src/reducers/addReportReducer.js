@@ -1,6 +1,6 @@
 import {
   ADD_REPORT,
-  CLEAR_FILE
+  CLEAR_FILE, GET_ALL_REPORTS, LOADING_ALL_REPORTS
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +16,7 @@ const initialState = {
     serverFilename: '',
     serverPath: ''
   },
+  reports: [],
   isLoading: true
 };
 
@@ -25,15 +26,26 @@ export default function (state = initialState, action) {
       return {
         ...state,
         message: action.payload.message,
-        reportData: action.payload.reportData,
-        fileData: action.payload.fileData,
-        isLoaded: true
+        reportData: action.payload.report.reportData,
+        fileData: action.payload.report.fileData,
+        isLoading: false
       };
     case CLEAR_FILE:
       return {
         ...state,
         fileData: {},
-        isLoaded: false
+        isLoading: false
+      };
+    case GET_ALL_REPORTS:
+      return {
+        ...state,
+        reports: action.payload.reports,
+        isLoading: false
+      };
+    case LOADING_ALL_REPORTS:
+      return {
+        ...state,
+        isLoading: true
       };
     default:
       return state;

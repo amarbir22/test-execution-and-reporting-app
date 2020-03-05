@@ -1,6 +1,5 @@
 import React from 'react';
 import PerfReport from '../perf-report/PerfReport';
-import FileUpload from '../common/file-upload/FileUpload';
 import AddReport from '../add-report/AddReport';
 
 

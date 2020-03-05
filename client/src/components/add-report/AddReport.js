@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useForm, Controller } from 'react-hook-form';
 import { DatePicker, TimePicker } from 'antd';
 import 'antd/dist/antd.css';
 
-
-import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment';
-import { addReport } from '../../actions/addReportActions';
-
+import { addReport } from '../../actions/reportActions';
 import AlertMessage from '../common/alert-message/AlertMessage';
 import { CLEAR_ERRORS, CLEAR_FILE } from '../../actions/types';
 
 function AddReport() {
-  const [filename, setFilename] = useState('Choose File');
+  const [filename, setFilename] = useState('Choose report file');
   const [reportUUID] = useState(uuidv4());
   const [file, setFile] = useState('');
-  const addReportData = useSelector((state) => state.addReport);
+  const reportData = useSelector((state) => state.report);
   const reduxError = useSelector((state) => state.errors);
   const dispatch = useDispatch();
+
   const {
     register, handleSubmit, errors, control
   } = useForm();
@@ -37,12 +36,6 @@ function AddReport() {
       setFile(e.target.files[0]);
       setFilename(e.target.files[0].name);
     }
-  };
-
-  const uploadStatus = {
-    alertHeading: (errorMessage) ? 'Error uploading' : 'File uploaded',
-    alertMessage: errorMessage || `Path: ${addReportData.fileData.serverPath}`,
-    alertVariant: (errorMessage) ? 'danger' : 'success'
   };
 
   const onSubmit = ({
@@ -68,27 +61,31 @@ function AddReport() {
     dispatch({ type: CLEAR_FILE });
 
     dispatch(addReport(newReport));
-    uploadStatus.alertShow = true;
+  };
+
+  const addReportAlertMessage = {
+    alertHeading: (errorMessage) ? 'Error saving the report' : 'Report saved',
+    alertMessage: errorMessage || reportData.message,
+    alertVariant: (errorMessage) ? 'danger' : 'success'
   };
 
   return (
     <div className="container">
       {
-        (addReportData.isLoaded || errorMessage)
+        (!reportData.isLoading || errorMessage)
         && (
           <AlertMessage
-            alertHeading={uploadStatus.alertHeading}
-            alertMessage={uploadStatus.alertMessage}
-            alertVariant={uploadStatus.alertVariant}
+            alertHeading={addReportAlertMessage.alertHeading}
+            alertMessage={addReportAlertMessage.alertMessage}
+            alertVariant={addReportAlertMessage.alertVariant}
           />
         )
       }
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h5>Tell us about your test</h5>
+        <h5 className="text-center">Tell us about your test</h5>
         <Row>
           <Col>
             <Form.Group controlId="addReportForm.applicationID">
-              <Form.Label id="uat-label">Application under test</Form.Label>
               <Form.Control
                 as="select"
                 name="applicationId"
@@ -100,7 +97,7 @@ function AddReport() {
                   }
                 })}
               >
-                <option value="">* Select Application</option>
+                <option value="">Select application under test</option>
                 <option value="maps">Maps</option>
                 <option value="media-player">Media Player</option>
                 <option value="dummy-app">Dummy App</option>
@@ -118,13 +115,12 @@ function AddReport() {
           </Col>
           <Col>
             <Form.Group controlId="addReportForm.testType">
-              <Form.Label id="testType">Test type</Form.Label>
               <Form.Control
                 as="select"
                 name="testType"
                 ref={register({ required: 'This is required.' })}
               >
-                <option value="">* Select Test Type</option>
+                <option value="">Select test type</option>
                 <option value="performance">Performance</option>
                 <option value="api-functional">API Functional</option>
                 <option value="api-response-ab">API Response AB</option>
@@ -138,8 +134,25 @@ function AddReport() {
         </Row>
         <Row>
           <Col>
+            <Form.Group controlId="addReportForm.env">
+              <Form.Control
+                as="select"
+                name="testEnvName"
+                ref={register({ required: 'This is required.' })}
+              >
+                <option value="">Select environment name</option>
+                <option value="stage">Stage</option>
+                <option value="qual">Qual</option>
+                <option value="qual-live">Qual-Live</option>
+                <option value="dev">Dev</option>
+                <option value="prod">Prod</option>
+              </Form.Control>
+              {errors.testEnvName
+              && <div className="invalid-feedback d-block errorMsg">{errors.testEnvName.message}</div>}
+            </Form.Group>
+          </Col>
+          <Col>
             <Form.Group>
-              <Form.Label className="mr3">Environment zone</Form.Label>
               {[{
                 label: 'AWS',
                 value: 'aws'
@@ -148,6 +161,7 @@ function AddReport() {
                 value: 'onprem'
               }].map(({ label, value }, key) => (
                 <Form.Check
+                  className="form-check-inline"
                   type="radio"
                   key={key}
                   label={`${label}`}
@@ -161,56 +175,38 @@ function AddReport() {
               && <div className="invalid-feedback d-block errorMsg">{errors.testEnvZone.message}</div>}
             </Form.Group>
           </Col>
-          <Col>
-            <Form.Group controlId="addReportForm.env">
-              <Form.Label id="uat-label">Environment name </Form.Label>
-              <Form.Control
-                as="select"
-                name="testEnvName"
-                ref={register({ required: 'This is required.' })}
-              >
-                <option value="stage">Stage</option>
-                <option value="qual">Qual</option>
-                <option value="qual-live">Qual-Live</option>
-                <option value="dev">Dev</option>
-                <option value="prod">Prod</option>
-              </Form.Control>
-              {errors.testEnvName
-              && <div className="invalid-feedback d-block errorMsg">{errors.testEnvName.message}</div>}
-            </Form.Group>
-          </Col>
         </Row>
         <Row>
           <Col>
             <div id="execution-date">
               <Form.Group>
-                <Form.Label id="uat-label" className="pr-3">Execution Date</Form.Label>
+                <Form.Label id="uat-label" className="pr-3">Execution on</Form.Label>
                 <Controller
                   as={(
-                    <DatePicker
-                      size="large"
-                    />
+                    <DatePicker />
                   )}
+                  placeholder="Select date"
+                  size="large"
                   name="executionDate"
                   control={control}
-                  defaultValue=""
                   rules={{ required: 'This required' }}
                 />
                 <Controller
                   as={
-                    <TimePicker format="HH:mm" size="large" />
+                    <TimePicker />
                   }
+                  format="HH:mm"
+                  size="large"
                   name="executionTime"
                   control={control}
                   rules={{ required: 'This is required' }}
-                  defaultValue={moment('21:00', 'HH:mm')}
                 />
                 {(errors.executionDate || errors.executionTime)
                 && (
                   <div
                     className="invalid-feedback d-block errorMsg"
                   >
-                    {errors.executionDate.message}
+                    This is required
                   </div>
                 )}
               </Form.Group>
@@ -230,17 +226,17 @@ function AddReport() {
                 <label className="custom-file-label" htmlFor="customFile">{filename}</label>
                 {errors.customFile
                 && (
-                <div
-                  className="invalid-feedback d-block errorMsg"
-                >
-                  {errors.customFile.message}
-                </div>
+                  <div
+                    className="invalid-feedback d-block errorMsg"
+                  >
+                    {errors.customFile.message}
+                  </div>
                 )}
               </div>
             </div>
           </Col>
         </Row>
-        <input type="submit" value="Upload" className="btn btn-primary btn-block mt-2" />
+        <input type="submit" value="Submit" className="btn btn-primary btn-block mt-2" />
       </Form>
     </div>
   );

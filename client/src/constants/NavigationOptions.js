@@ -9,7 +9,7 @@ const NavigationOptions = {
   ],
   dropdownOptions: [
     {
-      linkName: 'Execution',
+      linkName: 'Execute',
       linkId: 'exec ',
       index: 2,
       subLinks: [
@@ -31,19 +31,24 @@ const NavigationOptions = {
       ]
     },
     {
-      linkName: 'Reporting',
-      linkId: 'reporting',
+      linkName: 'Report',
+      linkId: 'report',
       index: 3,
       subLinks: [
         {
+          linkName: 'All',
+          linkPath: '/reporting/all',
+          index: 3.1
+        },
+        {
           linkName: 'Performance',
           linkPath: '/reporting/performance-dashboard',
-          index: 3.1
+          index: 3.2
         },
         {
           linkName: 'UI Test Automation',
           linkPath: '/reporting/protractor',
-          index: 3.2
+          index: 3.3
         }
       ]
     }

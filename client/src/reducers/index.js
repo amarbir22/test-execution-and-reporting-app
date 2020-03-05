@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import fileUploadReducer from './fileUploadReducer';
 import errorReducer from './errorReducer';
-import addReportReducer from './addReportReducer';
+import reportReducer from './addReportReducer';
 
 export default combineReducers({
   fileUpload: fileUploadReducer,
-  addReport: addReportReducer,
+  report: reportReducer,
   errors: errorReducer
 });
