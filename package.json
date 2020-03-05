@@ -39,6 +39,7 @@
     "concurrently": "^5.1.0",
     "config": "^3.3.0",
     "css-loader": "^3.4.2",
+    "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",

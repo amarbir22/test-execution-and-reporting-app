@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
@@ -12,6 +12,10 @@ function AlertMessage(props) {
   const {
     alertHeading, alertMessage, isShowAlertButton, alertVariant
   } = props;
+
+  useEffect(() => {
+    setShow(true);
+  }, [alertHeading, alertMessage]); // Open alert if this is a new alert Message
 
   if (show) {
     return (

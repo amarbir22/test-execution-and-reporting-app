@@ -35,6 +35,17 @@ const ReportSchema = new Schema({
       type: String,
       required: true
     },
+    uploadedReport: {
+      value: {
+        type: JSON
+      },
+      contentType: {
+        type: String
+      },
+      uploadedContentType: {
+        type: String
+      }
+    }
   },
   fileData: {
     serverFilename: {

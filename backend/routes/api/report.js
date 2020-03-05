@@ -1,5 +1,8 @@
 const express = require('express');
+const csv = require('csvtojson/v2');
+
 const Report = require('../../models/Report');
+const validFileExt = require('../../contants/validFileExt');
 
 
 const router = express.Router();
@@ -9,13 +12,11 @@ router.get('/', async (req, res) => {
   try {
     const allReports = await Report.find();
 
-    setTimeout(() => {
-      return res.status(200)
-        .send({
-          reports: allReports,
-          message: 'Successfully retrieved all reports'
-        });
-    }, 0);
+    setTimeout(() => res.status(200)
+      .send({
+        reports: allReports,
+        message: 'Successfully retrieved all reports'
+      }), 0);
   } catch (err) {
     return res.status(500)
       .send({ errorMessage: `Server side error ${err.message}` });
@@ -28,13 +29,20 @@ router.post('/', async (req, res) => {
     executionTime
   } = req.body;
 
+  const fileExt = clientFilename.split('.')[1];
+
+  if (!validFileExt.includes(fileExt)) {
+    return res.status(400)
+      .send({ errorMessage: `Invalid file type. Supported file types are:  ${validFileExt}` });
+  }
+
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400)
       .send({ errorMessage: 'Did you forget to attach the file ?' });
   }
 
   const file = req.files && req.files.file;
-  const path = `${__dirname}/../../../client/public/uploads/${file.name}`;
+
   const serverFilename = [
     applicationId,
     testType,
@@ -44,6 +52,31 @@ router.post('/', async (req, res) => {
     reportUUID.substr(reportUUID.lastIndexOf('-') + 1)
   ].join('_');
 
+  const fileLocation = `${__dirname}/../../../client/public/uploads/${serverFilename}`;
+
+
+  await file.mv(fileLocation, async (err) => {
+    if (err) {
+      return res.status(500)
+        .send({ errorMessage: 'Server side error while writing file' });
+    }
+  });
+
+  let jsonReport;
+  try {
+    jsonReport = await csv()
+      .fromFile(fileLocation);
+    if (!Object.keys(jsonReport[0]).includes('label')) {
+      return res.status(400)
+        .send({ errorMessage: 'We only accept Jmeter summary report' });
+    }
+  } catch (err) {
+    if (err) {
+      return res.status(500)
+        .send({ errorMessage: 'We had a problem with translation your report file' });
+    }
+  }
+
   const reportPayload = {
     reportUUID,
     reportData: {
@@ -52,11 +85,16 @@ router.post('/', async (req, res) => {
       testEnvZone,
       testEnvName,
       executionDate,
-      executionTime
+      executionTime,
+      uploadedReport: {
+        value: jsonReport,
+        contentType: 'json',
+        uploadedContentType: fileExt
+      }
     },
     fileData: {
       serverFilename,
-      serverPath: `/public/uploads/${serverFilename}`,
+      serverPath: `/public/uploads/${serverFilename}.${fileExt}`,
       clientFilename
     }
   };
@@ -76,15 +114,11 @@ router.post('/', async (req, res) => {
 
     const report = await newReport.save();
 
-    setTimeout(() => {
-      return res.status(200)
-        .send({
-          report,
-          message: 'Report saved into db'
-        });
-    }, 0);
-
-
+    setTimeout(() => res.status(200)
+      .send({
+        report,
+        message: 'Report saved into db'
+      }), 0);
   } catch (err) {
     console.error({ errorMessage: err.message });
     return res.status(500)

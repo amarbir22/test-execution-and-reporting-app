@@ -1,9 +1,10 @@
 import React from 'react';
+import AddReport from '../add-report/AddReport';
 
 const Home = () => (
-  <div className="container py-md-4">
-    <h1>Placeholder for home</h1>
-  </div>
+  <>
+    <AddReport />
+  </>
 );
 
 export default Home;
