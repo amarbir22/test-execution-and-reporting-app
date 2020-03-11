@@ -1,6 +1,6 @@
 import {
   ADD_REPORT,
-  CLEAR_FILE, GET_ALL_REPORTS, LOADING_ALL_REPORTS
+  CLEAR_FILE, GET_ALL_REPORTS, LOADING_ALL_REPORTS, CLEAR_MESSAGE
 } from '../actions/types';
 
 const initialState = {
@@ -46,6 +46,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      };
+    case CLEAR_MESSAGE:
+      return {
+        ...state,
+        message: ''
       };
     default:
       return state;

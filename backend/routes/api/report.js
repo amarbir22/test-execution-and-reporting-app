@@ -66,14 +66,17 @@ router.post('/', async (req, res) => {
   try {
     jsonReport = await csv()
       .fromFile(fileLocation);
-    if (!Object.keys(jsonReport[0]).includes('label')) {
+
+    if (!Object.keys(jsonReport[0])
+      .join(',').toLowerCase().includes('label')) {
+      console.log('my keys ', Object.keys(jsonReport[0]));
       return res.status(400)
-        .send({ errorMessage: 'We only accept Jmeter summary report' });
+        .send({ errorMessage: 'We only accept Jmeter report in csv format' });
     }
   } catch (err) {
     if (err) {
       return res.status(500)
-        .send({ errorMessage: 'We had a problem with translation your report file' });
+        .send({ errorMessage: `We have a problem with translating your report file. ${err.message}` });
     }
   }
 

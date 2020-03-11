@@ -28,6 +28,7 @@ function AddReport() {
 
   useEffect(() => () => {
     dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_MESSAGE' });
   }, []);
 
   const onChange = (e) => {
@@ -64,16 +65,16 @@ function AddReport() {
   };
 
   const addReportAlertMessage = {
-    alertHeading: (errorMessage) ? 'Humm.. something went wrong while saving your report...' : 'Report saved',
+    alertHeading: (reportData.message) ? 'Report saved' : 'Hmm.. something went wrong while saving your report...',
     alertMessage: errorMessage || reportData.message,
-    alertVariant: (errorMessage) ? 'danger' : 'success'
+    alertVariant: (reportData.message) ? 'success' : 'danger'
   };
 
   return (
     <>
       <div>
         {
-          (!reportData.isLoading || errorMessage)
+          (reportData.message || errorMessage)
           && (
             <AlertMessage
               alertHeading={addReportAlertMessage.alertHeading}
