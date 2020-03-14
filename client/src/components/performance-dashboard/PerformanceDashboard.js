@@ -44,8 +44,8 @@ class PerformanceDashboard extends React.Component {
           <thead>
             <tr>
               {
-              reportFormat.headers.map((item, i) => (
-                <td key={i}>{item}</td>
+              reportFormat.headers.map((item) => (
+                <td key={item}>{item}</td>
               ))
             }
             </tr>
@@ -53,8 +53,8 @@ class PerformanceDashboard extends React.Component {
           <tbody>
             <tr>
               {
-              reportFormat.rows.map((item, j) => (
-                <td key={j}>{item}</td>
+              reportFormat.rows.map((item) => (
+                <td key={item}>{item}</td>
               ))
             }
             </tr>

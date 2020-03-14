@@ -1,10 +1,11 @@
 import React from 'react';
-import AddReport from '../add-report/AddReport';
+import AddTeam from '../add-team/AddTeam';
 
 const Home = () => (
   <>
-    <AddReport />
+    <AddTeam />
   </>
 );
+
 
 export default Home;

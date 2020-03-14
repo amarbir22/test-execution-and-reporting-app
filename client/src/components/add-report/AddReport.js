@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -165,15 +164,17 @@ function AddReport() {
               <Form.Group>
                 {[{
                   label: 'AWS',
-                  value: 'aws'
+                  value: 'aws',
+                  id: 1
                 }, {
                   label: 'On-Prem',
-                  value: 'onprem'
-                }].map(({ label, value }, key) => (
+                  value: 'onprem',
+                  id: 2
+                }].map(({ label, value, id }) => (
                   <Form.Check
                     className="form-check-inline"
                     type="radio"
-                    key={key}
+                    key={id}
                     label={`${label}`}
                     value={value}
                     name="testEnvZone"

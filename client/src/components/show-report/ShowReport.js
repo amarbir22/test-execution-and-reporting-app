@@ -17,12 +17,10 @@ const ShowReport = () => {
 
 
   useEffect(() => {
-    console.log('Use effects');
     dispatch(getAllReports());
   }, []);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
