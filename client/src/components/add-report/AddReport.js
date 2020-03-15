@@ -5,9 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { DatePicker, TimePicker } from 'antd';
 import 'antd/dist/antd.css';
-
+import { DatePicker, TimePicker } from 'antd';
 import { addReport } from '../../actions/reportActions';
 import AlertMessage from '../common/alert-message/AlertMessage';
 import { CLEAR_ERRORS, CLEAR_FILE } from '../../actions/types';
@@ -17,13 +16,11 @@ function AddReport() {
   const [reportUUID] = useState(uuidv4());
   const [file, setFile] = useState('');
   const reportData = useSelector((state) => state.report);
-  const reduxError = useSelector((state) => state.errors);
   const dispatch = useDispatch();
 
   const {
     register, handleSubmit, errors, control
   } = useForm();
-  const { errorMessage } = reduxError;
 
   useEffect(() => () => {
     dispatch({ type: 'CLEAR_FILE' });
@@ -63,22 +60,15 @@ function AddReport() {
     dispatch(addReport(newReport));
   };
 
-  const addReportAlertMessage = {
-    alertHeading: (reportData.message) ? 'Report saved' : 'Hmm.. something went wrong while saving your report...',
-    alertMessage: errorMessage || reportData.message,
-    alertVariant: (reportData.message) ? 'success' : 'danger'
-  };
-
   return (
     <>
       <div>
         {
-          (reportData.message || errorMessage)
+          (reportData.message)
           && (
             <AlertMessage
-              alertHeading={addReportAlertMessage.alertHeading}
-              alertMessage={addReportAlertMessage.alertMessage}
-              alertVariant={addReportAlertMessage.alertVariant}
+              alertMessage={reportData.message}
+              alertVariant="success"
             />
           )
         }

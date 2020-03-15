@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { CLEAR_ERRORS } from '../../../actions/types';
 
 
 /**
@@ -9,6 +11,7 @@ import PropTypes from 'prop-types';
  */
 function AlertMessage(props) {
   const [show, setShow] = useState(true);
+  const dispatch = useDispatch();
   const {
     alertHeading, alertMessage, isShowAlertButton, alertVariant
   } = props;
@@ -17,9 +20,14 @@ function AlertMessage(props) {
     setShow(true);
   }, [alertHeading, alertMessage]); // Open alert if this is a new alert Message
 
+  function onAlertClose() {
+    setShow(false);
+    dispatch({ type: CLEAR_ERRORS });
+  }
+
   if (show) {
     return (
-      <Alert variant={alertVariant} onClose={() => setShow(false)} dismissible>
+      <Alert variant={alertVariant} onClose={onAlertClose} dismissible>
         {
           alertHeading
           && (
@@ -32,6 +40,7 @@ function AlertMessage(props) {
       </Alert>
     );
   }
+
   if (isShowAlertButton) {
     return <Button onClick={() => setShow(true)}>Show Alert</Button>;
   }

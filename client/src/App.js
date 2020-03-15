@@ -14,6 +14,7 @@ import PerfReport from './components/perf-report/PerfReport';
 import Home from './components/home/Home';
 import NotFound from './components/not-found/NotFound';
 import PerformanceDashboard from './components/performance-dashboard/PerformanceDashboard';
+import Notification from './components/notfication/Notification';
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -23,6 +24,7 @@ const App = () => (
       <div id="app-container">
         <div id="navbar">
           <Navigation navOptions={NavigationOptions} />
+          <Notification />
         </div>
         <Switch>
           <Route exact path="/" component={Home} />

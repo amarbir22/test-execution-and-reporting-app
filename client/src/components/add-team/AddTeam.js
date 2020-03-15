@@ -1,27 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Spinner from 'react-bootstrap/Spinner';
+import { getTeam } from '../../actions/teamActions';
+
 
 const AddTeam = ({
-  existingTeams
+  existingTeams,
+  isLoading
 }) => {
-  // TODO: Should be fetched from /team api
-  // eslint-disable-next-line no-param-reassign
-  existingTeams = existingTeams || [
-    {
-      teamID: '124',
-      teamName: 'G-team',
-      id: 'someID'
-    },
-    {
-      teamID: '355',
-      teamName: 'B-Team',
-      id: 'otherID'
-    }
-  ];
+  const dispatch = useDispatch();
+
+  function onSelectTeam(e) {
+    dispatch(getTeam(e));
+  }
+
   return (
     <div className="container" id="add-team">
       <section className="jumbotron text-center">
@@ -34,18 +31,28 @@ const AddTeam = ({
           </p>
           <ButtonGroup>
             <Button className="mr-2" variant="primary">Create New Team</Button>
-            <DropdownButton
-              id="dropdown-basic-button"
-              title="Select Existing Team"
-              variant="secondary"
-            >
-              {
-                existingTeams
-                && existingTeams.map((team) => (
-                  <Dropdown.Item key={team.id} href="#/action-1">{team.teamName}</Dropdown.Item>
-                ))
-              }
-            </DropdownButton>
+            {
+              isLoading ? (<Spinner className="ml-3" animation="grow" variant="secondary" />) : (
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title="Select Existing Team"
+                  variant="secondary"
+                  onSelect={onSelectTeam}
+                >
+                  {
+                    existingTeams.map((team) => (
+                      <Dropdown.Item
+                        key={team._id}
+                        eventKey={team._id}
+                        value={team._id}
+                      >
+                        {team.teamName}
+                      </Dropdown.Item>
+                    ))
+                  }
+                </DropdownButton>
+              )
+            }
           </ButtonGroup>
         </div>
       </section>
@@ -58,11 +65,16 @@ AddTeam.propTypes = {
     id: PropTypes.string,
     teamName: PropTypes.string,
     teamEmail: PropTypes.string
-  }))
+  })),
+  isLoading: PropTypes.bool
 };
 
 AddTeam.defaultProps = {
-  existingTeams: null
+  existingTeams: [{
+    _id: '0',
+    teamName: 'No Teams Found'
+  }],
+  isLoading: true
 };
 
 export default AddTeam;

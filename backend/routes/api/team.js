@@ -14,12 +14,12 @@ router.get('/alive', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const teams = await Team.find();
-    return res.status(200)
+    const existingTeams = await Team.find();
+    return setTimeout(() => res.status(200)
       .send({
-        teams,
+        existingTeams,
         message: 'Successfully retrieved all teams'
-      });
+      }), 0);
   } catch (err) {
     return res.status(500)
       .send({ errorMessage: `Server side error ${err.message}` });
@@ -82,7 +82,7 @@ router.get(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400)
-        .json({ errors: errors.array() });
+        .json({ errors: errors.array(), errorMessage: `Input validation failed: ${JSON.stringify(errors)}` });
     }
     try {
       const team = await Team.findById(req.params.id);
@@ -90,8 +90,8 @@ router.get(
         return res.status(404)
           .json({ msg: 'Team not found' });
       }
-      return res.status(200)
-        .send(team);
+      return setTimeout(() => res.status(200)
+        .send(team), 0);
     } catch (err) {
       return res.status(500)
         .send(`Server Error ${err.message}`);

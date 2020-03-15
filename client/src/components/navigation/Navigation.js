@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ class Navigation extends React.Component {
   render() {
     const { navOptions } = this.props;
     const { isDarkMode } = this.state;
+    const { currentTeam } = this.props;
 
     const themeColor = (isDarkMode) ? 'dark' : 'light';
 
@@ -63,6 +65,11 @@ class Navigation extends React.Component {
             ))}
           </Nav>
           <Nav>
+            <Nav.Link as={NavLink} to="/">
+              {currentTeam}
+            </Nav.Link>
+          </Nav>
+          <Nav>
             <Nav.Link eventKey={2} onClick={this.toggleDarkMode}>
               {(isDarkMode) ? 'Light Mode' : 'Dark Mode'}
             </Nav.Link>
@@ -75,7 +82,20 @@ class Navigation extends React.Component {
 
 Navigation.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  navOptions: PropTypes.object.isRequired
+  navOptions: PropTypes.object.isRequired,
+  currentTeam: PropTypes.string
 };
 
-export default Navigation;
+Navigation.defaultProps = {
+  currentTeam: 'Select a team'
+};
+
+function mapStateToProps(state) {
+  return {
+    currentTeam: state.team.currentTeam.teamName
+  };
+}
+
+export default connect(
+  mapStateToProps
+)(Navigation);
