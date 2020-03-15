@@ -6,12 +6,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTeam } from '../../actions/teamActions';
+import AlertMessage from '../common/alert-message/AlertMessage';
 
 const AddTeamForm = () => {
   const [teamApps, setTeamApps] = useState([]);
   const [appName, setAppName] = useState();
+  const teamData = useSelector((state) => state.team);
   const dispatch = useDispatch();
 
 
@@ -36,7 +38,7 @@ const AddTeamForm = () => {
   };
 
   const deleteApp = (e) => {
-    setTeamApps(teamApps.filter((el) => el.id !== e.target.value));
+    setTeamApps(teamApps.filter((el) => el.appID !== e.target.value));
   };
 
 
@@ -53,6 +55,15 @@ const AddTeamForm = () => {
 
   return (
     <div className="container mb-3">
+      {
+        (teamData.message)
+        && (
+          <AlertMessage
+            alertMessage={teamData.message}
+            alertVariant="success"
+          />
+        )
+      }
       <h3>Create a team</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup className="mb-3">
@@ -130,11 +141,11 @@ const AddTeamForm = () => {
         <ListGroup>
           {
             teamApps.map((app) => (
-              <ListGroup.Item key={app.id}>
+              <ListGroup.Item key={app.appID}>
                 {app.appName}
                 <Button
                   className="float-right btn-danger"
-                  value={app.id}
+                  value={app.appID}
                   onClick={deleteApp}
                 >
                   Remove

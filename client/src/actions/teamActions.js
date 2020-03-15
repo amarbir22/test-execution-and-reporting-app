@@ -7,7 +7,8 @@ import {
   GET_TEAM,
   LOADING_TEAM,
   SET_CURRENT_TEAM,
-  ADD_TEAM
+  ADD_TEAM,
+  CLEAR_TEAM_MESSAGE
 } from './types';
 
 export const getAllTeams = () => (dispatch) => {
@@ -43,6 +44,7 @@ export const setCurrentTeam = (currentTeam) => (dispatch) => {
 };
 
 export const addTeam = (team) => (dispatch) => {
+  dispatch({ type: CLEAR_TEAM_MESSAGE });
   axios.post('/api/team', team)
     .then((res) => dispatch({
       type: ADD_TEAM,

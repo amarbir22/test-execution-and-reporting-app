@@ -11,3 +11,4 @@ export const GET_TEAM = 'GET_TEAM';
 export const ADD_TEAM = 'ADD_TEAM';
 export const LOADING_TEAM = 'LOADING_TEAM';
 export const SET_CURRENT_TEAM = 'SET_CURRENT_TEAM';
+export const CLEAR_TEAM_MESSAGE = 'CLEAR_TEAM_MESSAGE';

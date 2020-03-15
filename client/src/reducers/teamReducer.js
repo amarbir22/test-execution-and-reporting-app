@@ -1,7 +1,8 @@
 import {
   GET_TEAMS,
   GET_TEAM, ADD_TEAM,
-  LOADING_TEAM
+  LOADING_TEAM,
+  CLEAR_TEAM_MESSAGE
 } from '../actions/types';
 
 const initialState = {
@@ -21,6 +22,7 @@ export default function (state = initialState, action) {
     case ADD_TEAM:
       return {
         ...state,
+        message: action.payload.message,
         currentTeam: action.payload.team,
         isLoading: false
       };
@@ -40,6 +42,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      };
+    case CLEAR_TEAM_MESSAGE:
+      return {
+        ...state,
+        message: null
       };
     default:
       return state;
