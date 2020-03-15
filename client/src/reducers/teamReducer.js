@@ -7,7 +7,7 @@ import {
 const initialState = {
   existingTeams: [],
   currentTeam: {
-    id: '',
+    _id: '',
     teamName: undefined,
     teamEmail: '',
     teamApps: [],
@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
     case ADD_TEAM:
       return {
         ...state,
-        currentTeam: action.payload,
+        currentTeam: action.payload.team,
         isLoading: false
       };
     case GET_TEAM:

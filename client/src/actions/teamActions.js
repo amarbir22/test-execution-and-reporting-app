@@ -6,7 +6,8 @@ import {
   GET_TEAMS,
   GET_TEAM,
   LOADING_TEAM,
-  SET_CURRENT_TEAM
+  SET_CURRENT_TEAM,
+  ADD_TEAM
 } from './types';
 
 export const getAllTeams = () => (dispatch) => {
@@ -39,4 +40,16 @@ export const setCurrentTeam = (currentTeam) => (dispatch) => {
     type: SET_CURRENT_TEAM,
     payload: currentTeam
   });
+};
+
+export const addTeam = (team) => (dispatch) => {
+  axios.post('/api/team', team)
+    .then((res) => dispatch({
+      type: ADD_TEAM,
+      payload: res.data
+    }))
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }));
 };

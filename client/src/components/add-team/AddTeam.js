@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
@@ -7,6 +7,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { getTeam } from '../../actions/teamActions';
+import AddTeamForm from './AddTeamForm';
 
 
 const AddTeam = ({
@@ -14,9 +15,14 @@ const AddTeam = ({
   isLoading
 }) => {
   const dispatch = useDispatch();
+  const [teamNameDropdown, setTeamNameDropdown] = useState('Select Team');
 
   function onSelectTeam(e) {
-    dispatch(getTeam(e));
+    // TODO: Input Validation
+    if (e !== '') {
+      dispatch(getTeam(e));
+    }
+    setTeamNameDropdown(existingTeams.filter((t) => t._id === e)[0].teamName);
   }
 
   return (
@@ -35,7 +41,7 @@ const AddTeam = ({
               isLoading ? (<Spinner className="ml-3" animation="grow" variant="secondary" />) : (
                 <DropdownButton
                   id="dropdown-basic-button"
-                  title="Select Existing Team"
+                  title={teamNameDropdown}
                   variant="secondary"
                   onSelect={onSelectTeam}
                 >
@@ -56,13 +62,16 @@ const AddTeam = ({
           </ButtonGroup>
         </div>
       </section>
+      <div className="container" id="add-team">
+        <AddTeamForm />
+      </div>
     </div>
   );
 };
 
 AddTeam.propTypes = {
   existingTeams: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    _id: PropTypes.string,
     teamName: PropTypes.string,
     teamEmail: PropTypes.string
   })),
@@ -71,7 +80,7 @@ AddTeam.propTypes = {
 
 AddTeam.defaultProps = {
   existingTeams: [{
-    _id: '0',
+    _id: '',
     teamName: 'No Teams Found'
   }],
   isLoading: true
