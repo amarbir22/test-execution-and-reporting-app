@@ -7,15 +7,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'antd/dist/antd.css';
 import { DatePicker, TimePicker } from 'antd';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 import { addReport } from '../../actions/reportActions';
-import AlertMessage from '../common/alert-message/AlertMessage';
 import { CLEAR_ERRORS, CLEAR_FILE } from '../../actions/types';
 
 function AddReport() {
   const [filename, setFilename] = useState('Choose report file');
   const [reportUUID] = useState(uuidv4());
   const [file, setFile] = useState('');
-  const reportData = useSelector((state) => state.report);
+  const teamData = useSelector((state) => state.team);
+
   const dispatch = useDispatch();
 
   const {
@@ -36,10 +38,11 @@ function AddReport() {
   };
 
   const onSubmit = ({
-    applicationId, testType, testEnvZone, testEnvName, executionDate, executionTime
+    applicationId, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName
   }) => {
     const newReport = {
       reportUUID,
+      teamName,
       reportData: {
         applicationId,
         testType,
@@ -62,20 +65,35 @@ function AddReport() {
 
   return (
     <>
-      <div>
-        {
-          (reportData.message)
-          && (
-            <AlertMessage
-              alertMessage={reportData.message}
-              alertVariant="success"
-            />
-          )
-        }
-      </div>
       <div className="container mt-3">
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h5 className="text-center">Tell us about your test</h5>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="basic-addon1" disabled>Team Name</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              disabled
+              name="teamName"
+              placeholder="Select a team from Home Page"
+              value={teamData.currentTeam.teamName}
+              aria-label="team-name"
+              ref={register({
+                required: 'This is required.',
+                minLength: {
+                  value: 2,
+                  message: 'Min length is 2'
+                }
+              })}
+            />
+            {errors.teamName && (
+              <div
+                className="invalid-feedback d-block errorMsg"
+              >
+                {errors.teamName.message}
+              </div>
+            )}
+          </InputGroup>
           <Row>
             <Col>
               <Form.Group controlId="addReportForm.applicationID">

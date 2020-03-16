@@ -19,6 +19,7 @@ export const addReport = (data) => (dispatch) => {
     .format('HH:mm');
 
   formData.append('file', data.fileData.file);
+  formData.append('teamName', data.teamName);
   formData.append('reportUUID', data.reportUUID);
   formData.append('applicationId', data.reportData.applicationId);
   formData.append('testType', data.reportData.testType);

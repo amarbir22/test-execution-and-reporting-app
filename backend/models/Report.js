@@ -7,6 +7,10 @@ const ReportSchema = new Schema({
     type: Schema.Types.String,
     required: true
   },
+  teamName: {
+    type: String,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now

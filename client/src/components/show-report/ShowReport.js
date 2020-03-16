@@ -28,6 +28,15 @@ const ShowReport = () => {
 
   const columns = [
     {
+      title: 'Team Name',
+      dataIndex: 'teamName',
+      key: 'teamName',
+      sorter: (a, b) => a.teamName.localeCompare(b.teamName),
+      sortOrder: sortedInfo.columnKey === 'teamName' && sortedInfo.order,
+      ellipsis: true,
+      hide: false
+    },
+    {
       title: 'Application',
       dataIndex: 'applicationId',
       key: 'applicationId',
@@ -75,7 +84,7 @@ const ShowReport = () => {
     },
     {
       title: 'Execution Time',
-      dataIndex: 'executionTime',
+      dataIndex: 'reportData.executionTime',
       key: 'executionTime',
       sorter: (a, b) => moment(a.executionTime)
         .unix() - moment(b.executionTime)
@@ -103,7 +112,7 @@ const ShowReport = () => {
           <Table
             loading={report.isLoading}
             columns={columns}
-            dataSource={report.reports.map((rp) => rp.reportData)}
+            dataSource={report.reports.map((rp) => rp)}
             onChange={handleChange}
           />
         </div>

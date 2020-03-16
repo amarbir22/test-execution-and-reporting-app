@@ -25,8 +25,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const {
-    reportUUID, applicationId, testType, testEnvName, testEnvZone, clientFilename, executionDate,
-    executionTime
+    reportUUID, teamName, applicationId, testType, testEnvName, testEnvZone, clientFilename,
+    executionDate, executionTime
   } = req.body;
 
   const fileExt = clientFilename.split('.')[1];
@@ -82,6 +82,7 @@ router.post('/', async (req, res) => {
 
   const reportPayload = {
     reportUUID,
+    teamName,
     reportData: {
       applicationId,
       testType,
@@ -117,7 +118,7 @@ router.post('/', async (req, res) => {
 
     const report = await newReport.save();
 
-    setTimeout(() => res.status(200)
+    return setTimeout(() => res.status(200)
       .send({
         report,
         message: 'Report saved into db'

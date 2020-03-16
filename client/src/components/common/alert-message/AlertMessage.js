@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { CLEAR_ERRORS } from '../../../actions/types';
 
 
-/**
- * @return {null}
- */
 function AlertMessage(props) {
   const [show, setShow] = useState(true);
-  const dispatch = useDispatch();
   const {
-    alertHeading, alertMessage, isShowAlertButton, alertVariant
+    alertHeading, alertMessage, isShowAlertButton, alertVariant, closeAction
   } = props;
 
   useEffect(() => {
@@ -22,12 +16,14 @@ function AlertMessage(props) {
 
   function onAlertClose() {
     setShow(false);
-    dispatch({ type: CLEAR_ERRORS });
+    if (closeAction) {
+      closeAction();
+    }
   }
 
   if (show) {
     return (
-      <Alert variant={alertVariant} onClose={onAlertClose} dismissible>
+      <Alert variant={alertVariant} onClose={onAlertClose} dismissible className="mb-0">
         {
           alertHeading
           && (
@@ -51,12 +47,14 @@ AlertMessage.propTypes = {
   alertHeading: PropTypes.string,
   alertMessage: PropTypes.string.isRequired,
   isShowAlertButton: PropTypes.bool,
-  alertVariant: PropTypes.string.isRequired
+  alertVariant: PropTypes.string.isRequired,
+  closeAction: PropTypes.func
 };
 
 AlertMessage.defaultProps = {
   isShowAlertButton: false,
-  alertHeading: null
+  alertHeading: null,
+  closeAction: null
 };
 
 export default AlertMessage;

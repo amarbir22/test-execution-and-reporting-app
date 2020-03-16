@@ -6,14 +6,12 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addTeam } from '../../actions/teamActions';
-import AlertMessage from '../common/alert-message/AlertMessage';
 
 const AddTeamForm = () => {
   const [teamApps, setTeamApps] = useState([]);
   const [appName, setAppName] = useState();
-  const teamData = useSelector((state) => state.team);
   const dispatch = useDispatch();
 
 
@@ -55,15 +53,6 @@ const AddTeamForm = () => {
 
   return (
     <div className="container mb-3">
-      {
-        (teamData.message)
-        && (
-          <AlertMessage
-            alertMessage={teamData.message}
-            alertVariant="success"
-          />
-        )
-      }
       <h3>Create a team</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup className="mb-3">
