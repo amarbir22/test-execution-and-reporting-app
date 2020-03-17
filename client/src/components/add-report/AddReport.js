@@ -116,11 +116,11 @@ function AddReport() {
                     ))
                   }
                 </Form.Control>
-                {errors.appID && (
+                {errors.appName && (
                   <div
                     className="invalid-feedback d-block errorMsg"
                   >
-                    {errors.appID.message}
+                    {errors.appName.message}
                   </div>
                 )}
               </Form.Group>
