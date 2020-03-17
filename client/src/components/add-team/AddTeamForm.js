@@ -8,31 +8,39 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { addTeam } from '../../actions/teamActions';
+import InputError from '../common/input-error/InputError';
 
 const AddTeamForm = () => {
   const [teamApps, setTeamApps] = useState([]);
-  const [appName, setAppName] = useState();
   const dispatch = useDispatch();
-
-
   const {
-    register, handleSubmit, errors
+    register, handleSubmit, errors, triggerValidation, setValue, setError, watch
   } = useForm();
+  const appName = watch('appName');
 
-  const onChangeAppNameInput = (e) => {
-    setAppName(e.target.value);
-  };
+  const addApp = async () => {
+    const addAndValidate = () => {
+      if (appName && appName.length >= 3 && !teamApps.find((a) => a.appName === appName)) {
+        setTeamApps([
+          ...teamApps,
+          {
+            appName,
+            appID: uuidv4()
+          }
+        ]);
+        setValue('appName', '');
+        return Promise.resolve(`${appName} added app`);
+      }
+      return Promise.reject(new Error('App name must be at least 3 character long'));
+    };
 
-  const addApp = () => {
-    if (appName && appName.length >= 3 && !teamApps.find((a) => a.appName === appName)) {
-      setTeamApps([
-        ...teamApps,
-        {
-          appName,
-          appID: uuidv4()
-        }
-      ]);
-    }
+    addAndValidate()
+      .then(() => {
+        triggerValidation('appName');
+      })
+      .catch((err) => {
+        setError('appName', 'minLength', err.message);
+      });
   };
 
   const deleteApp = (e) => {
@@ -42,13 +50,15 @@ const AddTeamForm = () => {
 
   function onSubmit({
     teamName, teamEmail
-  }) {
+  }, e) {
     const newTeam = {
       teamName,
       teamEmail,
       teamApps
     };
     dispatch(addTeam(newTeam));
+    e.target.reset();
+    setTeamApps([]);
   }
 
   return (
@@ -57,7 +67,7 @@ const AddTeamForm = () => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text id="basic-addon1">Team Name*</InputGroup.Text>
+            <InputGroup.Text id="basic-addon1">Team Name</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             name="teamName"
@@ -71,13 +81,7 @@ const AddTeamForm = () => {
               }
             })}
           />
-          {errors.teamName && (
-            <div
-              className="invalid-feedback d-block errorMsg"
-            >
-              {errors.teamName.message}
-            </div>
-          )}
+          <InputError errors={errors.teamName} />
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
@@ -97,34 +101,29 @@ const AddTeamForm = () => {
               }
             })}
           />
-          {errors.teamEmail && (
-            <div
-              className="invalid-feedback d-block errorMsg"
-            >
-              {errors.teamEmail.message}
-            </div>
-          )}
+          <InputError errors={errors.teamEmail} />
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
             <InputGroup.Text id="team-apps">Team Applications</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            name="teamApps"
+            name="appName"
             placeholder="Add each app your team will be working on"
             aria-label="teamApps"
-            onChange={onChangeAppNameInput}
             ref={register({
-              required: 'This is required.',
-              minLength: {
-                value: 2,
-                message: 'Min length is 2'
+              validate: {
+                appsArraySize: () => teamApps.length >= 1
               }
             })}
           />
           <InputGroup.Append>
             <Button id="team-apps" onClick={addApp}>Add</Button>
           </InputGroup.Append>
+          <InputError
+            errors={(errors.appName && errors.appName.type === 'appsArraySize')
+              ? { message: 'At least one app required' } : errors.appName}
+          />
         </InputGroup>
         <h5>Team Apps List</h5>
         <ListGroup>
@@ -143,13 +142,6 @@ const AddTeamForm = () => {
             ))
           }
         </ListGroup>
-        {teamApps.length === 0 && (
-          <div
-            className="invalid-feedback d-block errorMsg"
-          >
-            At least one application required
-          </div>
-        )}
         <Button className="btn-block mt-2" variant="primary" type="submit">
           Save Team
         </Button>

@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const {
-    reportUUID, teamName, applicationId, testType, testEnvName, testEnvZone, clientFilename,
+    reportUUID, teamName, appName, testType, testEnvName, testEnvZone, clientFilename,
     executionDate, executionTime
   } = req.body;
 
@@ -43,8 +43,9 @@ router.post('/', async (req, res) => {
 
   const file = req.files && req.files.file;
 
+  // TODO appName can break file url
   const serverFilename = [
-    applicationId,
+    appName.replace(' ', '-'),
     testType,
     testEnvZone,
     testEnvName,
@@ -84,7 +85,7 @@ router.post('/', async (req, res) => {
     reportUUID,
     teamName,
     reportData: {
-      applicationId,
+      appName,
       testType,
       testEnvZone,
       testEnvName,

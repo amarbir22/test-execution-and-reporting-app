@@ -15,7 +15,6 @@ const ShowReport = () => {
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(getAllReports());
   }, []);
@@ -38,8 +37,8 @@ const ShowReport = () => {
     },
     {
       title: 'Application',
-      dataIndex: 'applicationId',
-      key: 'applicationId',
+      dataIndex: ['reportData', 'appName'],
+      key: 'appName',
       filters: [{
         text: 'Joe',
         value: 'Joe'
@@ -48,14 +47,14 @@ const ShowReport = () => {
         value: 'Jim'
       }],
       filteredValue: filteredInfo.value || null,
-      onFilter: (value, record) => record.applicationId.includes(value),
-      sorter: (a, b) => a.applicationId.localeCompare(b.applicationId),
-      sortOrder: sortedInfo.columnKey === 'applicationId' && sortedInfo.order,
+      onFilter: (value, record) => record.appName.includes(value),
+      sorter: (a, b) => a.reportData.appName.localeCompare(b.reportData.appName),
+      sortOrder: sortedInfo.columnKey === 'appID' && sortedInfo.order,
       ellipsis: true
     },
     {
       title: 'Test Type',
-      dataIndex: 'testType',
+      dataIndex: ['reportData', 'testType'],
       key: 'testType',
       sorter: (a, b) => a.testType.localeCompare(b.testType),
       sortOrder: sortedInfo.columnKey === 'testType' && sortedInfo.order,
@@ -64,7 +63,7 @@ const ShowReport = () => {
     },
     {
       title: 'Test Env Zone',
-      dataIndex: 'testEnvZone',
+      dataIndex: ['reportData', 'testEnvZone'],
       key: 'testEnvZone',
       sorter: (a, b) => a.testEnvZone.localeCompare(b.testEnvZone),
       sortOrder: sortedInfo.columnKey === 'testEnvZone' && sortedInfo.order,
@@ -73,7 +72,7 @@ const ShowReport = () => {
     },
     {
       title: 'Execution Date',
-      dataIndex: 'executionDate',
+      dataIndex: ['reportData', 'executionDate'],
       key: 'executionDate',
       sorter: (a, b) => moment(a.executionDate)
         .unix() - moment(b.executionDate)
@@ -84,7 +83,7 @@ const ShowReport = () => {
     },
     {
       title: 'Execution Time',
-      dataIndex: 'reportData.executionTime',
+      dataIndex: ['reportData', 'executionTime'],
       key: 'executionTime',
       sorter: (a, b) => moment(a.executionTime)
         .unix() - moment(b.executionTime)

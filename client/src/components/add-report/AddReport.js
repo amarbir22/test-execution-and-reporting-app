@@ -38,13 +38,13 @@ function AddReport() {
   };
 
   const onSubmit = ({
-    applicationId, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName
+    appName, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName
   }) => {
     const newReport = {
       reportUUID,
       teamName,
       reportData: {
-        applicationId,
+        appName,
         testType,
         testEnvZone,
         testEnvName,
@@ -62,6 +62,7 @@ function AddReport() {
 
     dispatch(addReport(newReport));
   };
+
 
   return (
     <>
@@ -96,10 +97,10 @@ function AddReport() {
           </InputGroup>
           <Row>
             <Col>
-              <Form.Group controlId="addReportForm.applicationID">
+              <Form.Group controlId="addReportForm.appName">
                 <Form.Control
                   as="select"
-                  name="applicationId"
+                  name="appName"
                   ref={register({
                     required: 'This is required.',
                     minLength: {
@@ -108,18 +109,18 @@ function AddReport() {
                     }
                   })}
                 >
-                  <option value="">Select application under test</option>
-                  <option value="maps">Maps</option>
-                  <option value="media-player">Media Player</option>
-                  <option value="dummy-app">Dummy App</option>
-                  <option value="music">Music</option>
-                  <option value="tear">TEAR</option>
+                  <option value="">Select Application</option>
+                  {
+                    teamData.currentTeam.teamApps.map((app) => (
+                      <option value={app.appName}>{app.appName}</option>
+                    ))
+                  }
                 </Form.Control>
-                {errors.applicationId && (
+                {errors.appID && (
                   <div
                     className="invalid-feedback d-block errorMsg"
                   >
-                    {errors.applicationId.message}
+                    {errors.appID.message}
                   </div>
                 )}
               </Form.Group>

@@ -16,7 +16,7 @@ const ReportSchema = new Schema({
     default: Date.now
   },
   reportData: {
-    applicationId: {
+    appName: {
       type: String,
       required: true
     },

@@ -16,6 +16,7 @@ const AddTeam = ({
 }) => {
   const dispatch = useDispatch();
   const [teamNameDropdown, setTeamNameDropdown] = useState('Select Team');
+  const [showAddTeamForm, setAddTeamForm] = useState(false);
 
   function onSelectTeam(e) {
     // TODO: Input Validation
@@ -36,7 +37,9 @@ const AddTeam = ({
             created you can upload and manage test results specific to your team.
           </p>
           <ButtonGroup>
-            <Button className="mr-2" variant="primary">Create New Team</Button>
+            <Button className="mr-2" variant="primary" onClick={() => setAddTeamForm(true)}>
+              Create New Team
+            </Button>
             {
               isLoading ? (<Spinner className="ml-3" animation="grow" variant="secondary" />) : (
                 <DropdownButton
@@ -63,7 +66,10 @@ const AddTeam = ({
         </div>
       </section>
       <div className="container" id="add-team">
-        <AddTeamForm />
+        {
+          showAddTeamForm
+          && <AddTeamForm />
+        }
       </div>
     </div>
   );

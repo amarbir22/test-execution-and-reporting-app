@@ -21,7 +21,7 @@ export const addReport = (data) => (dispatch) => {
   formData.append('file', data.fileData.file);
   formData.append('teamName', data.teamName);
   formData.append('reportUUID', data.reportUUID);
-  formData.append('applicationId', data.reportData.applicationId);
+  formData.append('appName', data.reportData.appName);
   formData.append('testType', data.reportData.testType);
   formData.append('testEnvZone', data.reportData.testEnvZone);
   formData.append('testEnvName', data.reportData.testEnvName);

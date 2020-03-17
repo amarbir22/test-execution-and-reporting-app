@@ -23,7 +23,7 @@ function AlertMessage(props) {
 
   if (show) {
     return (
-      <Alert variant={alertVariant} onClose={onAlertClose} dismissible className="mb-0">
+      <Alert variant={alertVariant} onClose={onAlertClose} dismissible className="mb-0 rounded">
         {
           alertHeading
           && (
