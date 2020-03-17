@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -7,8 +8,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { getTeam } from '../../actions/teamActions';
-import AddTeamForm from './AddTeamForm';
-
 
 const AddTeam = ({
   existingTeams,
@@ -16,7 +15,6 @@ const AddTeam = ({
 }) => {
   const dispatch = useDispatch();
   const [teamNameDropdown, setTeamNameDropdown] = useState('Select Team');
-  const [showAddTeamForm, setAddTeamForm] = useState(false);
 
   function onSelectTeam(e) {
     // TODO: Input Validation
@@ -27,7 +25,7 @@ const AddTeam = ({
   }
 
   return (
-    <div className="container" id="add-team">
+    <div className="container mt-3" id="add-team">
       <section className="jumbotron text-center">
         <div className="container container-sm">
           <h2 className="jumbotron-heading">Welcome to TEAR, Get your test results faster!</h2>
@@ -37,7 +35,7 @@ const AddTeam = ({
             created you can upload and manage test results specific to your team.
           </p>
           <ButtonGroup>
-            <Button className="mr-2" variant="primary" onClick={() => setAddTeamForm(true)}>
+            <Button className="mr-2" variant="primary" as={NavLink} to="/team/add-team">
               Create New Team
             </Button>
             {
@@ -65,12 +63,6 @@ const AddTeam = ({
           </ButtonGroup>
         </div>
       </section>
-      <div className="container" id="add-team">
-        {
-          showAddTeamForm
-          && <AddTeamForm />
-        }
-      </div>
     </div>
   );
 };

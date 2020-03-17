@@ -15,6 +15,8 @@ import Home from './components/home/Home';
 import NotFound from './components/not-found/NotFound';
 import PerformanceDashboard from './components/performance-dashboard/PerformanceDashboard';
 import Notification from './components/notfication/Notification';
+import AddReport from './components/add-report/AddReport';
+import AddTeamForm from './components/add-team/AddTeamForm';
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -31,6 +33,8 @@ const App = () => (
           <Route exact path="/performance" component={PerformanceDashboard} />
           <Route exact path="/reporting/performance-dashboard" component={PerfReport} />
           <Route exact path="/reporting/all" component={ShowReport} />
+          <Route exact path="/reporting/add-report" component={AddReport} />
+          <Route exact path="/team/add-team" component={AddTeamForm} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </div>

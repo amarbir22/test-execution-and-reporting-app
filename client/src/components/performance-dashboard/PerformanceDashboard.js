@@ -39,7 +39,6 @@ class PerformanceDashboard extends React.Component {
       <div className="container py-md-4">
         <h1>Placeholder for Performance Dashboard</h1>
         <p>Compare JMeter Reports</p>
-        <AddReport />
         <table className="table">
           <thead>
             <tr>

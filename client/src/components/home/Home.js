@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddTeam from '../add-team/AddTeam';
 import { getAllTeams } from '../../actions/teamActions';
+import AddReport from '../add-report/AddReport';
 
 const Home = () => {
   const teamData = useSelector((state) => state.team);

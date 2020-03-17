@@ -36,19 +36,14 @@ const NavigationOptions = {
       index: 3,
       subLinks: [
         {
-          linkName: 'All',
-          linkPath: '/reporting/all',
+          linkName: 'Add Report',
+          linkPath: '/reporting/add-report',
           index: 3.1
         },
         {
-          linkName: 'Performance',
-          linkPath: '/reporting/performance-dashboard',
+          linkName: 'View All',
+          linkPath: '/reporting/all',
           index: 3.2
-        },
-        {
-          linkName: 'UI Test Automation',
-          linkPath: '/reporting/protractor',
-          index: 3.3
         }
       ]
     }

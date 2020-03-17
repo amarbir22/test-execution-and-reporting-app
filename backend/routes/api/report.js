@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   try {
     const allReports = await Report.find();
 
-    setTimeout(() => res.status(200)
+    return setTimeout(() => res.status(200)
       .send({
         reports: allReports,
         message: 'Successfully retrieved all reports'
@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
     reportUUID.substr(reportUUID.lastIndexOf('-') + 1)
   ].join('_');
 
-  const fileLocation = `${__dirname}/../../../client/public/uploads/${serverFilename}`;
+  const fileLocation = `${__dirname}/../../../client/public/uploads/${serverFilename}.${fileExt}`;
 
 
   await file.mv(fileLocation, async (err) => {
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
       return res.status(500)
         .send({ errorMessage: 'Server side error while writing file' });
     }
-  });
+  })
 
   let jsonReport;
   try {

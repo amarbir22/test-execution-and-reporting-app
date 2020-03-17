@@ -62,8 +62,8 @@ const AddTeamForm = () => {
   }
 
   return (
-    <div className="container mb-3">
-      <h3>Create a team</h3>
+    <div className="container mt-3">
+      <h3>Create a new team</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>

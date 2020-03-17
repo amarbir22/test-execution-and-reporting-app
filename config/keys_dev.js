@@ -1,7 +1,7 @@
-const MONGO_DEV_PASSWORD = process.env.MONGO_DEV_PASSWORD;
-const SECRET_OR_KEY = process.env.SECRET_OR_KEY;
+const { MONGO_DEV_PASSWORD } = process.env;
+const { SECRET_OR_KEY } = process.env;
 
 module.exports = {
-    mongoURI: `mongodb://admin:${MONGO_DEV_PASSWORD}@ds223756.mlab.com:23756/tear-db-dev-prim`,
-    secretOrKey: SECRET_OR_KEY
+  mongoURI: `mongodb://admin:${MONGO_DEV_PASSWORD}@ds223756.mlab.com:23756/tear-db-dev-prim`,
+  secretOrKey: SECRET_OR_KEY
 };
