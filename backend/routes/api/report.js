@@ -139,7 +139,17 @@ async (req, res) => {
 
   const newReport = Report(reportPayload);
   try {
-    const existingReport = await Report.findOne({ metaData: reportPayload.metaData });
+    const existingReport = await Report.findOne(
+      {
+        'metaData.teamName': reportPayload.metaData.teamName,
+        'metaData.appName': reportPayload.metaData.appName,
+        'metaData.testType': reportPayload.metaData.testType,
+        'metaData.testEnvZone': reportPayload.metaData.testEnvZone,
+        'metaData.testEnvName': reportPayload.metaData.testEnvName,
+        'metaData.executionDate': reportPayload.metaData.executionDate,
+        'metaData.executionTime': reportPayload.metaData.executionTime
+      }
+    );
 
     if (existingReport) {
       return res.status(400)
