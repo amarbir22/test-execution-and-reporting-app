@@ -4,19 +4,9 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  reportUUID: '',
   message: '',
-  reportData: {
-    applicationId: '',
-    testType: '',
-    testEnvZone: '',
-    testEnvName: ''
-  },
-  fileData: {
-    serverFilename: '',
-    serverPath: ''
-  },
-  reports: [],
+  recentReport: {},
+  allReports: [], // TODO Need separate State Object
   isLoading: true
 };
 
@@ -25,21 +15,19 @@ export default function (state = initialState, action) {
     case ADD_REPORT:
       return {
         ...state,
+        recentReport: action.payload.report,
         message: action.payload.message,
-        reportData: action.payload.report.reportData,
-        fileData: action.payload.report.fileData,
         isLoading: false
       };
     case CLEAR_FILE:
       return {
         ...state,
-        fileData: {},
         isLoading: false
       };
     case GET_ALL_REPORTS:
       return {
         ...state,
-        reports: action.payload.reports,
+        allReports: action.payload.reports,
         isLoading: false
       };
     case LOADING_ALL_REPORTS:

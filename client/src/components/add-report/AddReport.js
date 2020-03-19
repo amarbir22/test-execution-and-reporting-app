@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
+import { Controller, useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -14,7 +13,6 @@ import { CLEAR_ERRORS, CLEAR_FILE } from '../../actions/types';
 
 function AddReport() {
   const [filename, setFilename] = useState('Choose report file');
-  const [reportUUID] = useState(uuidv4());
   const [file, setFile] = useState('');
   const teamData = useSelector((state) => state.team);
 
@@ -41,20 +39,22 @@ function AddReport() {
     appName, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName
   }) => {
     const newReport = {
-      reportUUID,
-      teamName,
-      reportData: {
+      metaData: {
+        teamName,
         appName,
         testType,
         testEnvZone,
         testEnvName,
         executionDate,
-        executionTime
+        executionTime,
+        isAutomated: true
       },
-      fileData: {
-        file,
-        clientFilename: filename
-      }
+      reportFile: (file) ? {
+        metaData: {
+          clientFilename: filename
+        },
+        file
+      } : undefined
     };
 
     dispatch({ type: CLEAR_ERRORS });

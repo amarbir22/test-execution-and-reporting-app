@@ -11,24 +11,28 @@ import {
 // Get current profile
 // eslint-disable-next-line import/prefer-default-export
 export const addReport = (data) => (dispatch) => {
+  const {
+    teamName, appName, testType, testEnvZone, testEnvName
+  } = data.metaData;
   const formData = new FormData();
 
-  const executionDate = moment(data.reportData.executionDate)
-    .format('YYYY-MM-DD');
-  const executionTime = moment(data.reportData.executionTime)
-    .format('HH:mm');
+  formData.append('teamName', teamName);
+  formData.append('appName', appName);
+  formData.append('testType', testType);
+  formData.append('testEnvZone', testEnvZone);
+  formData.append('testEnvName', testEnvName);
+  formData.append('executionDate', moment(data.metaData.executionDate)
+    .format('YYYY-MM-DD'));
+  formData.append('executionTime', moment(data.metaData.executionTime)
+    .format('HH:mm'));
 
-  formData.append('file', data.fileData.file);
-  formData.append('teamName', data.teamName);
-  formData.append('reportUUID', data.reportUUID);
-  formData.append('appName', data.reportData.appName);
-  formData.append('testType', data.reportData.testType);
-  formData.append('testEnvZone', data.reportData.testEnvZone);
-  formData.append('testEnvName', data.reportData.testEnvName);
-  formData.append('clientFilename', data.fileData.clientFilename);
-  formData.append('executionDate', executionDate);
-  formData.append('executionTime', executionTime);
-
+  if (data.reportFile) {
+    formData.append('file', data.reportFile.file);
+    formData.append('clientFilename', data.reportFile.metaData.clientFilename);
+  }
+  if (data.testNotes) {
+    formData.append('testNotes', data.testNotes);
+  }
 
   axios
     .post('/api/report', formData)

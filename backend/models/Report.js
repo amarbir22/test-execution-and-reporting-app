@@ -3,19 +3,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ReportSchema = new Schema({
-  reportUUID: {
-    type: Schema.Types.String,
-    required: true
-  },
-  teamName: {
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now
   },
-  reportData: {
+  metaData: {
+    teamName: {
+      type: String,
+      required: true
+    },
     appName: {
       type: String,
       required: true
@@ -40,31 +36,49 @@ const ReportSchema = new Schema({
       type: String,
       required: true
     },
-    uploadedReport: {
-      value: {
-        type: JSON
-      },
-      contentType: {
+    isAutomated: {
+      type: Boolean,
+      required: true
+    },
+    testingTool: {
+      name: {
         type: String
       },
-      uploadedContentType: {
+      version: {
         type: String
       }
     }
   },
-  fileData: {
-    serverFilename: {
-      type: String
+  reportFile: {
+    metaData: {
+      contentType: {
+        type: String
+      },
+      clientFilename: {
+        type: String
+      },
+      serverFilename: {
+        type: String
+      },
+      serverFilePath: {
+        type: String
+      }
     },
-    clientFilename: {
-      type: String
-    },
-    serverPath: {
-      type: String
-    },
-    required: false
+    translatedFile: {
+      metaData: {
+        contentType: {
+          type: String
+        }
+      },
+      content: {
+        type: JSON,
+        required: true
+      }
+    }
+  },
+  testNotes: {
+    type: String
   }
-
 });
 
 module.exports = Report = mongoose.model('Report', ReportSchema);
