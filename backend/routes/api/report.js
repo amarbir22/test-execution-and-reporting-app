@@ -1,8 +1,8 @@
 const express = require('express');
 const csv = require('csvtojson/v2');
 const { validationResult, check } = require('express-validator');
-
 const Report = require('../../models/Report');
+const JsonReport = require('../../models/JsonReport');
 const validFileExt = require('../../contants/validFileExt');
 
 
@@ -23,6 +23,23 @@ router.get('/', async (req, res) => {
       .send({ errorMessage: `Server side error ${err.message}` });
   }
 });
+
+// GET jsonReport based on report id
+router.get('/jsonReport/:id', async (req, res) => {
+  try {
+    const jsonReport = await JsonReport.findOne({ report: req.params.id });
+
+    return res.status(200)
+      .send({
+        jsonReport,
+        message: 'Successfully retrieved jsonReport'
+      });
+  } catch (err) {
+    return res.status(500)
+      .send({ errorMessage: `Server side error ${err.message}` });
+  }
+});
+
 
 router.post('/', [
   check('teamName', 'is required')
@@ -89,13 +106,16 @@ async (req, res) => {
     },
     testNotes
   };
+  let jsonReportPayload = {
+
+  };
 
   // Verify report file only if provided by user. As it is optional
   if (clientFilename) {
     const fileExt = clientFilename.split('.')[1];
     const reportFile = {
       metaData: {},
-      translatedFile: {
+      jsonReport: {
         metaData: {}
       }
     };
@@ -132,12 +152,13 @@ async (req, res) => {
     }
     reportFile.metaData.contentType = fileExt;
     reportFile.metaData.clientFilename = clientFilename;
-    reportFile.translatedFile.metaData.contentType = 'application/json';
-    reportFile.translatedFile.content = jsonReport;
+    reportFile.jsonReport.metaData.contentType = 'application/json';
     reportPayload.reportFile = reportFile;
+    jsonReportPayload.content = jsonReport;
   }
 
   const newReport = Report(reportPayload);
+
   try {
     const existingReport = await Report.findOne(
       {
@@ -161,9 +182,18 @@ async (req, res) => {
 
     const report = await newReport.save();
 
+    const newJsonReportPayload = {
+      report: report._id,
+      content: jsonReportPayload.content
+    };
+
+    const newJsonReport = JsonReport(newJsonReportPayload);
+    const jsonReport = await newJsonReport.save();
+
     return setTimeout(() => res.status(200)
       .send({
         report,
+        jsonReport,
         message: 'Report saved into db'
       }), 0);
   } catch (err) {

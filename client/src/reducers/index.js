@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import errorReducer from './errorReducer';
-import reportReducer from './addReportReducer';
+import reportReducer from './reportReducer';
 import teamReducer from './teamReducer';
 
 export default combineReducers({

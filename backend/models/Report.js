@@ -64,15 +64,11 @@ const ReportSchema = new Schema({
         type: String
       }
     },
-    translatedFile: {
+    jsonReport: {
       metaData: {
         contentType: {
           type: String
         }
-      },
-      content: {
-        type: JSON,
-        required: true
       }
     }
   },

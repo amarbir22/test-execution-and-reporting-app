@@ -1,5 +1,6 @@
 import React from 'react';
 import Figure from 'react-bootstrap/Figure';
+import { Link } from 'react-router-dom';
 import image from '../../../public/static/images/page-not-found-4.png';
 
 
@@ -23,7 +24,7 @@ export default () => (
               </Figure>
             </div>
             <span className="display-1 d-block">404</span>
-            <a href="/" className="btn btn-link">Back to Home</a>
+            <Link to="/" className="btn btn-link">Back to Home</Link>
           </div>
         </div>
       </div>

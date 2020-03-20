@@ -1,23 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Table from 'antd/es/table';
+import { getJsonReportByReportId } from '../../actions/reportActions';
 
 const ShowReport = () => {
   const { id } = useParams();
-  const { allReports } = useSelector((state) => state.report);
-  const columns = [];
+  const [columns, setColumns] = useState([]);
+  const { jsonReport } = useSelector((state) => state.report);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    Object.keys(allReports[0].reportFile.translatedFile.content[0])
-      .map((header) => columns.push(
-        {
-          title: header,
-          dataIndex: header,
-          key: header
-        }
-      ));
+    dispatch(getJsonReportByReportId(id));
   }, []);
+
+  useEffect(() => {
+    const cols = [];
+    if (jsonReport.content) {
+      Object.keys(jsonReport.content[0])
+        .map((header) => cols.push(
+          {
+            title: header,
+            dataIndex: header,
+            key: header
+          }
+        ));
+    }
+    setColumns(cols);
+  }, [jsonReport]);
 
 
   return (
@@ -25,7 +35,7 @@ const ShowReport = () => {
       <h1>Report Placeholder</h1>
       <Table
         columns={columns}
-        dataSource={allReports.find((el) => el._id === id).reportFile.translatedFile.content}
+        dataSource={jsonReport.content}
       />
     </div>
   );
