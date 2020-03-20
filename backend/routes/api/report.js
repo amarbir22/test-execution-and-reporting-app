@@ -3,8 +3,7 @@ const csv = require('csvtojson/v2');
 const { validationResult, check } = require('express-validator');
 const Report = require('../../models/Report');
 const JsonReport = require('../../models/JsonReport');
-const validFileExt = require('../../contants/validFileExt');
-
+const constants = require('../../contants/contants');
 
 const router = express.Router();
 
@@ -27,11 +26,11 @@ router.get('/', async (req, res) => {
 // GET jsonReport based on report id
 router.get('/jsonReport/:id', async (req, res) => {
   try {
-    const jsonReport = await JsonReport.findOne({ report: req.params.id });
+    const jsonReport = await JsonReport.findOne({ report: req.params.id }).populate();
 
     return res.status(200)
       .send({
-        jsonReport,
+        jsonReport: (jsonReport) || undefined,
         message: 'Successfully retrieved jsonReport'
       });
   } catch (err) {
@@ -75,6 +74,7 @@ async (req, res) => {
     teamName, appName, testType, testEnvName, testEnvZone, clientFilename,
     executionDate, executionTime, isAutomated, testingToolName, testingToolVersion, testNotes
   } = req.body;
+  const { validFileTypes, maxFileSizeInBytes } = constants;
 
   /**
      * 1. input validation - done
@@ -106,9 +106,7 @@ async (req, res) => {
     },
     testNotes
   };
-  let jsonReportPayload = {
-
-  };
+  const jsonReportPayload = {};
 
   // Verify report file only if provided by user. As it is optional
   if (clientFilename) {
@@ -120,18 +118,23 @@ async (req, res) => {
       }
     };
 
-    if (!validFileExt.includes(fileExt)) {
+    if (!validFileTypes.includes(fileExt)) {
       return res.status(400)
-        .send({ errorMessage: `Invalid file type. Supported file types are:  ${validFileExt}` });
+        .send({ errorMessage: `Invalid file type. Supported file types are:  ${validFileTypes}` });
     }
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400)
         .send({ errorMessage: 'Did you forget to attach the file ?' });
     }
-    // TODO Save jsonReport as seperate object on DB
     let jsonReport = [];
     const file = req.files && req.files.file;
+
+    if (file.size > maxFileSizeInBytes) {
+      return res.status(400)
+        .send({ errorMessage: `Maximum file size supported is ${maxFileSizeInBytes}B and you provided ${file.size}B` });
+    }
+
     try {
       const csvData = file.data.toString('utf8');
       jsonReport = await csv()
@@ -181,14 +184,15 @@ async (req, res) => {
     }
 
     const report = await newReport.save();
-
-    const newJsonReportPayload = {
-      report: report._id,
-      content: jsonReportPayload.content
-    };
-
-    const newJsonReport = JsonReport(newJsonReportPayload);
-    const jsonReport = await newJsonReport.save();
+    let jsonReport;
+    if (clientFilename) {
+      const newJsonReportPayload = {
+        report: report._id,
+        content: jsonReportPayload.content
+      };
+      const newJsonReport = JsonReport(newJsonReportPayload);
+      jsonReport = await newJsonReport.save();
+    }
 
     return setTimeout(() => res.status(200)
       .send({

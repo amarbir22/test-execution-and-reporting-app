@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'antd/dist/antd.css';
-import { DatePicker, TimePicker } from 'antd';
+import { DatePicker, TimePicker } from 'antd/es';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import { addReport } from '../../actions/reportActions';
@@ -62,7 +62,6 @@ function AddReport() {
 
     dispatch(addReport(newReport));
   };
-
 
   return (
     <>
@@ -247,17 +246,8 @@ function AddReport() {
                     name="customFile"
                     id="customFile"
                     onChange={onChange}
-                    ref={register({ required: 'This is required.' })}
                   />
                   <label className="custom-file-label" htmlFor="customFile">{filename}</label>
-                  {errors.customFile
-                  && (
-                    <div
-                      className="invalid-feedback d-block errorMsg"
-                    >
-                      {errors.customFile.message}
-                    </div>
-                  )}
                 </div>
               </div>
             </Col>

@@ -77,4 +77,4 @@ const ReportSchema = new Schema({
   }
 });
 
-module.exports = Report = mongoose.model('Report', ReportSchema);
+module.exports = Report = mongoose.model('report', ReportSchema);

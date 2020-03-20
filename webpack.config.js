@@ -21,11 +21,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
-      {
         test: /\.s?css$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
@@ -39,6 +34,16 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        test: /\.js$/,
+        options: {
+          plugins: [
+            ['import', { libraryName: 'antd', style: true }]
+          ]
+        }
       }
     ]
   },

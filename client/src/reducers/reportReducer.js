@@ -7,7 +7,8 @@ const initialState = {
   message: '',
   recentReport: {},
   allReports: [], // TODO Need separate State Object
-  jsonReport: {},
+  jsonReport: {
+  },
   isLoading: true
 };
 

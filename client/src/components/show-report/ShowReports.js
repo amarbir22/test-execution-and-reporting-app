@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Table from 'antd/es/table';
+import { DeleteOutlined } from '@ant-design/icons';
+
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import { getAllReports } from '../../actions/reportActions';
@@ -22,6 +24,17 @@ const ShowReports = () => {
   const handleChange = (pagination, filters, sorter) => {
     setFilteredInfo(filters);
     setSortedInfo(sorter);
+  };
+
+  const showReportFileLink = (data) => {
+    if (!data.reportFile) {
+      return undefined;
+    }
+    return (
+      <NavLink to={`/report/${data._id}`} style={{ marginRight: 16 }}>
+        View Report
+      </NavLink>
+    );
   };
 
 
@@ -95,14 +108,13 @@ const ShowReports = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (data, record) => (
+      render: (data) => (
         <span>
-          <NavLink to={`/report/${data._id}`} style={{ marginRight: 16 }}>
-            View Report
-            {record.name}
-          </NavLink>
+          {
+            showReportFileLink(data)
+          }
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a href="#">Delete</a>
+          <DeleteOutlined />
         </span>
       )
     }

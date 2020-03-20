@@ -28,11 +28,13 @@ const AddTeam = ({
     <div className="container mt-3" id="add-team">
       <section className="jumbotron text-center">
         <div className="container container-sm">
-          <h2 className="jumbotron-heading">Welcome to TEAR, Get your test results faster!</h2>
+          <h2 className="jumbotron-heading">
+            Welcome to TEAR,
+            <span className="text-muted"> get your test results faster!</span>
+          </h2>
           <p className="lead text-muted">
             We&apos;ve created a set of tools to help you organize your tests results.
-            To get started you need to create a team or select an existing team. Once a team is
-            created you can upload and manage test results specific to your team.
+            Start by creating a team or select an existing team.
           </p>
           <ButtonGroup>
             <Button className="mr-2" variant="primary" as={NavLink} to="/team/add-team">

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Table from 'antd/es/table';
 import { getJsonReportByReportId } from '../../actions/reportActions';
+import TranslatedReport from './TranslatedReport';
 
 const ShowReport = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const ShowReport = () => {
 
   useEffect(() => {
     const cols = [];
-    if (jsonReport.content) {
+    if (jsonReport && jsonReport.content) {
       Object.keys(jsonReport.content[0])
         .map((header) => cols.push(
           {
@@ -29,14 +29,17 @@ const ShowReport = () => {
     setColumns(cols);
   }, [jsonReport]);
 
+  const getJsonReportContent = (data) => {
+    if (!data) {
+      return [];
+    }
+    return data.content || [];
+  };
 
   return (
     <div className="container">
       <h1>Report Placeholder</h1>
-      <Table
-        columns={columns}
-        dataSource={jsonReport.content}
-      />
+      <TranslatedReport columns={columns} data={getJsonReportContent(jsonReport)} id={id} />
     </div>
   );
 };
