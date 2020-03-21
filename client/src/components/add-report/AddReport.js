@@ -10,6 +10,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import { addReport } from '../../actions/reportActions';
 import { CLEAR_ERRORS, CLEAR_FILE } from '../../actions/types';
+import InputError from '../common/input-error/InputError';
+import SupportedTestingTools from '../../constants/SupportedTestingTools';
 
 function AddReport() {
   const [filename, setFilename] = useState('Choose report file');
@@ -36,7 +38,8 @@ function AddReport() {
   };
 
   const onSubmit = ({
-    appName, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName
+    appName, testType, testEnvZone, testEnvName, executionDate, executionTime, teamName,
+    isAutomated, testNotes, testToolName, testToolVersion
   }) => {
     const newReport = {
       metaData: {
@@ -54,7 +57,11 @@ function AddReport() {
           clientFilename: filename
         },
         file
-      } : undefined
+      } : undefined,
+      testToolName: testToolName || undefined,
+      testToolVersion: testToolVersion || undefined,
+      isAutomated,
+      testNotes: testNotes || testToolName
     };
 
     dispatch({ type: CLEAR_ERRORS });
@@ -70,7 +77,7 @@ function AddReport() {
           <h5 className="text-center">Tell us about your test</h5>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
-              <InputGroup.Text id="basic-addon1" disabled>Team Name</InputGroup.Text>
+              <InputGroup.Text id="teamName" disabled>Team Name</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
               disabled
@@ -86,13 +93,7 @@ function AddReport() {
                 }
               })}
             />
-            {errors.teamName && (
-              <div
-                className="invalid-feedback d-block errorMsg"
-              >
-                {errors.teamName.message}
-              </div>
-            )}
+            <InputError errors={errors.teamName} />
           </InputGroup>
           <Row>
             <Col>
@@ -115,13 +116,7 @@ function AddReport() {
                     ))
                   }
                 </Form.Control>
-                {errors.appName && (
-                  <div
-                    className="invalid-feedback d-block errorMsg"
-                  >
-                    {errors.appName.message}
-                  </div>
-                )}
+                <InputError errors={errors.appName} />
               </Form.Group>
             </Col>
             <Col>
@@ -138,8 +133,7 @@ function AddReport() {
                   <option value="api-manual">API Manual</option>
                   <option>UI Integration</option>
                 </Form.Control>
-                {errors.testType
-                && <div className="invalid-feedback d-block errorMsg">{errors.testType.message}</div>}
+                <InputError errors={errors.testType} />
               </Form.Group>
             </Col>
           </Row>
@@ -158,21 +152,14 @@ function AddReport() {
                   <option value="dev">Dev</option>
                   <option value="prod">Prod</option>
                 </Form.Control>
-                {errors.testEnvName
-                && (
-                  <div
-                    className="invalid-feedback d-block errorMsg"
-                  >
-                    {errors.testEnvName.message}
-                  </div>
-                )}
+                <InputError errors={errors.testEnvName} />
               </Form.Group>
             </Col>
-            <Col>
+            <Col className="col-md-auto mt-2">
               <Form.Group>
                 {[{
-                  label: 'AWS',
-                  value: 'aws',
+                  label: 'Cloud',
+                  value: 'cloud',
                   id: 1
                 }, {
                   label: 'On-Prem',
@@ -190,14 +177,23 @@ function AddReport() {
                     ref={register({ required: 'This is required.' })}
                   />
                 ))}
-                {errors.testEnvZone
-                && (
-                  <div
-                    className="invalid-feedback d-block errorMsg"
-                  >
-                    {errors.testEnvZone.message}
-                  </div>
-                )}
+                <InputError errors={errors.testEnvZone} />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="addReportForm.testToolName">
+                <Form.Control
+                  as="select"
+                  name="testToolName"
+                  ref={register()}
+                >
+                  <option value="">Select testing tool</option>
+                  {
+                    SupportedTestingTools.map(({ name, id }) => (
+                      <option key={id} value={name}>{name}</option>
+                    ))
+                  }
+                </Form.Control>
               </Form.Group>
             </Col>
           </Row>
@@ -205,7 +201,7 @@ function AddReport() {
             <Col>
               <div id="execution-date">
                 <Form.Group>
-                  <Form.Label id="uat-label" className="pr-3">Execution on</Form.Label>
+                  <Form.Label id="uat-label" className="pr-3">Test Execution Date</Form.Label>
                   <Controller
                     as={(
                       <DatePicker />
@@ -224,20 +220,14 @@ function AddReport() {
                     size="large"
                     name="executionTime"
                     control={control}
-                    rules={{ required: 'This is required' }}
+                    rules={{ required: 'This required' }}
                   />
-                  {(errors.executionDate || errors.executionTime)
-                  && (
-                    <div
-                      className="invalid-feedback d-block errorMsg"
-                    >
-                      This is required
-                    </div>
-                  )}
+                  <InputError errors={errors.executionDate || errors.executionTime} />
                 </Form.Group>
               </div>
             </Col>
             <Col>
+              <Form.Check inline label="Automated" type="checkbox" name="isAutomated" ref={register()} />
               <div id="upload-file">
                 <div className="custom-file mb-2">
                   <input
@@ -250,6 +240,14 @@ function AddReport() {
                   <label className="custom-file-label" htmlFor="customFile">{filename}</label>
                 </div>
               </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group controlId="addReportForm.testNotes">
+                <Form.Label>Test Notes</Form.Label>
+                <Form.Control name="testNotes" as="textarea" rows="3" ref={register} />
+              </Form.Group>
             </Col>
           </Row>
           <input type="submit" value="Submit" className="btn btn-primary btn-block mt-2" />

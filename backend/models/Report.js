@@ -35,19 +35,22 @@ const ReportSchema = new Schema({
     executionTime: {
       type: String,
       required: true
-    },
-    isAutomated: {
-      type: Boolean,
-      required: true
-    },
-    testingTool: {
-      name: {
-        type: String
-      },
-      version: {
-        type: String
-      }
     }
+  },
+  testTool: {
+    name: {
+      type: String
+    },
+    version: {
+      type: String
+    }
+  },
+  isAutomated: {
+    type: Boolean,
+    required: true
+  },
+  testNotes: {
+    type: String
   },
   reportFile: {
     metaData: {
@@ -71,9 +74,6 @@ const ReportSchema = new Schema({
         }
       }
     }
-  },
-  testNotes: {
-    type: String
   }
 });
 

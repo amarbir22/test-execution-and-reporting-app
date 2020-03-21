@@ -50,8 +50,9 @@ router.post('/', [
   check('testEnvName', 'is required')
     .exists(),
   check('isAutomated', 'is required')
+    .exists()
     .toBoolean(),
-  check('testingToolName', 'must be a string')
+  check('testToolName', 'must be a string')
     .optional()
     .isString(),
   check('testingToolVersion', 'must be a string')
@@ -72,7 +73,7 @@ async (req, res) => {
   }
   const {
     teamName, appName, testType, testEnvName, testEnvZone, clientFilename,
-    executionDate, executionTime, isAutomated, testingToolName, testingToolVersion, testNotes
+    executionDate, executionTime, isAutomated, testToolName, testingToolVersion, testNotes
   } = req.body;
   const { validFileTypes, maxFileSizeInBytes } = constants;
 
@@ -98,12 +99,12 @@ async (req, res) => {
       testEnvName,
       executionDate,
       executionTime,
-      isAutomated,
-      testingTool: (testingToolName) ? {
-        name: testingToolName,
-        version: (testingToolVersion) || undefined
-      } : undefined
     },
+    isAutomated,
+    testTool: (testToolName) ? {
+      name: testToolName,
+      version: testingToolVersion || undefined
+    } : undefined,
     testNotes
   };
   const jsonReportPayload = {};

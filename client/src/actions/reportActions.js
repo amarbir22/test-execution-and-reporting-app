@@ -25,6 +25,7 @@ export const addReport = (data) => (dispatch) => {
     .format('YYYY-MM-DD'));
   formData.append('executionTime', moment(data.metaData.executionTime)
     .format('HH:mm'));
+  formData.append('isAutomated', data.isAutomated);
 
   if (data.reportFile) {
     formData.append('file', data.reportFile.file);
@@ -32,6 +33,9 @@ export const addReport = (data) => (dispatch) => {
   }
   if (data.testNotes) {
     formData.append('testNotes', data.testNotes);
+  }
+  if (data.testToolName) {
+    formData.append('testToolName', data.testToolName);
   }
 
   axios
