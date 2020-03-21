@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJsonReportByReportId } from '../../actions/reportActions';
-import TranslatedReport from './TranslatedReport';
+import ReportFileTable from './ReportFileTable';
 
-const ShowReport = () => {
+const ReportDetail = () => {
   const { id } = useParams();
   const [columns, setColumns] = useState([]);
   const { jsonReport } = useSelector((state) => state.report);
@@ -39,9 +39,9 @@ const ShowReport = () => {
   return (
     <div className="container">
       <h1>Report Placeholder</h1>
-      <TranslatedReport columns={columns} data={getJsonReportContent(jsonReport)} id={id} />
+      <ReportFileTable columns={columns} data={getJsonReportContent(jsonReport)} id={id} />
     </div>
   );
 };
 
-export default ShowReport;
+export default ReportDetail;

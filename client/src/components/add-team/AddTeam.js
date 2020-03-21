@@ -30,11 +30,11 @@ const AddTeam = ({
         <div className="container container-sm">
           <h2 className="jumbotron-heading">
             Welcome to TEAR,
-            <span className="text-muted"> get your test results faster!</span>
+            <span className="text-muted"> get your test results fast!</span>
           </h2>
           <p className="lead text-muted">
-            We&apos;ve created a set of tools to help you organize your tests results.
-            Start by creating a team or select an existing team.
+            We&apos;ve created a set of tools to help organize tests results.
+            Start by creating a team or selecting an existing team.
           </p>
           <ButtonGroup>
             <Button className="mr-2" variant="primary" as={NavLink} to="/team/add-team">

@@ -2,7 +2,7 @@ import React from 'react';
 import Table from 'antd/es/table/Table';
 import PropTypes from 'prop-types';
 
-const TranslatedReport = (props) => {
+const ReportFileTable = (props) => {
   const { columns, data, id } = props;
   return (
     <div id={id}>
@@ -14,14 +14,14 @@ const TranslatedReport = (props) => {
   );
 };
 
-TranslatedReport.propTypes = {
+ReportFileTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     dataIndex: PropTypes.string,
     key: PropTypes.string
   })).isRequired,
-  data: PropTypes.objectOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired
 };
 
-export default TranslatedReport;
+export default ReportFileTable;

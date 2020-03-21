@@ -65,7 +65,7 @@ const AddTeamForm = () => {
     <div className="container mt-3">
       <h3>Create a team</h3>
       <p className="lead text-muted">
-        You need a team to save test reports. Once a team is set, you save reports for your team.
+        A team allows you to save test reports.
       </p>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup className="mb-3">

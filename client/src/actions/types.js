@@ -3,6 +3,7 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const ADD_FILE = 'ADD_FILE';
 export const CLEAR_FILE = 'CLEAR_FILE';
 export const ADD_REPORT = 'ADD_REPORT';
+export const DELETE_REPORT = 'DELETE_REPORT';
 export const GET_ALL_REPORTS = 'GET_ALL_REPORTS';
 export const GET_JSON_REPORT = 'GET_JSON_REPORT';
 export const LOADING_ALL_REPORTS = 'LOADING_ALL_REPORTS';

@@ -5,7 +5,7 @@ import moment from 'moment';
 import {
   GET_ERRORS,
   ADD_REPORT, GET_ALL_REPORTS,
-  LOADING_ALL_REPORTS, CLEAR_ERRORS, LOADING_JSON_REPORT, GET_JSON_REPORT
+  LOADING_ALL_REPORTS, CLEAR_ERRORS, LOADING_JSON_REPORT, GET_JSON_REPORT, DELETE_REPORT
 } from './types';
 
 // Get current profile
@@ -73,6 +73,19 @@ export const getJsonReportByReportId = (id) => (dispatch) => {
     .get(`/api/report/jsonReport/${id}`)
     .then((res) => dispatch({
       type: GET_JSON_REPORT,
+      payload: res.data
+    }))
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }));
+};
+
+export const deleteReportById = (id) => (dispatch) => {
+  axios
+    .delete(`/api/report/${id}`)
+    .then((res) => dispatch({
+      type: DELETE_REPORT,
       payload: res.data
     }))
     .catch((err) => dispatch({

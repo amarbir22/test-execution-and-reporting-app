@@ -5,13 +5,13 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
-import { getAllReports } from '../../actions/reportActions';
-import AlertMessage from '../common/alert-message/AlertMessage';
+import Button from 'antd/es/button';
+import Popconfirm from 'antd/es/popconfirm';
+import { deleteReportById, getAllReports } from '../../actions/reportActions';
 
 
-const ShowReports = () => {
+const ReportList = () => {
   const report = useSelector((state) => state.report);
-  const errors = useSelector((state) => state.errors);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
@@ -37,6 +37,9 @@ const ShowReports = () => {
     );
   };
 
+  const onDeleteReport = (data) => {
+    dispatch(deleteReportById(data._id));
+  };
 
   const columns = [
     {
@@ -113,8 +116,14 @@ const ShowReports = () => {
           {
             showReportFileLink(data)
           }
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <DeleteOutlined />
+          <Popconfirm
+            title="Are you sure delete this report?"
+            onConfirm={() => { onDeleteReport(data); }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button icon={<DeleteOutlined />} />
+          </Popconfirm>
         </span>
       )
     }
@@ -122,15 +131,6 @@ const ShowReports = () => {
 
   return (
     <>
-      <div className="container container-lg">
-        {errors.errorMessage
-        && (
-          <AlertMessage
-            alertMessage={errors.errorMessage}
-            alertVariant="danger"
-          />
-        )}
-      </div>
       <div className="container">
         <h1>View Test Reports</h1>
         <div>
@@ -146,4 +146,4 @@ const ShowReports = () => {
   );
 };
 
-export default ShowReports;
+export default ReportList;

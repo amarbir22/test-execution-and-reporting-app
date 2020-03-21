@@ -1,6 +1,6 @@
 const express = require('express');
 const csv = require('csvtojson/v2');
-const { validationResult, check } = require('express-validator');
+const { validationResult, check, param } = require('express-validator');
 const Report = require('../../models/Report');
 const JsonReport = require('../../models/JsonReport');
 const constants = require('../../contants/contants');
@@ -98,7 +98,7 @@ async (req, res) => {
       testEnvZone,
       testEnvName,
       executionDate,
-      executionTime,
+      executionTime
     },
     isAutomated,
     testTool: (testToolName) ? {
@@ -207,5 +207,38 @@ async (req, res) => {
       .send({ errorMessage: `Server error while saving into db. - ${err.message}` });
   }
 });
+
+// DELETE report and assocated report file
+router.delete('/:id',
+  [
+    param('id', 'id must be a UUID')
+      .matches(/^[0-9a-fA-F]{24}$/)
+  ],
+  async (req, res) => {
+    try {
+      const report = await Report.findOneAndRemove({ _id: req.params.id });
+      if (!report) {
+        return res.status(404)
+          .send({ errorMessage: `Report not found with ID:  ${req.params.id}` });
+      }
+      let jsonReport;
+      let successMessage = 'Successfully deleted report';
+      if (report.reportFile) {
+        jsonReport = await JsonReport.findOneAndRemove({ report: { _id: req.params.id } });
+        if (jsonReport) {
+          successMessage = 'Successfully deleted report and associated report file';
+        }
+      }
+      return res.status(200)
+        .send({
+          report: (report) || undefined,
+          jsonReport,
+          message: successMessage
+        });
+    } catch (err) {
+      return res.status(500)
+        .send({ errorMessage: `Server side error ${err.message}` });
+    }
+  });
 
 module.exports = router;

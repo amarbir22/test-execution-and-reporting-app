@@ -9,7 +9,7 @@ import './App.css';
 import Navigation from './components/navigation/Navigation';
 import NavigationOptions from './constants/NavigationOptions';
 
-import ShowReports from './components/show-report/ShowReports';
+import ReportList from './components/report/ReportList';
 import PerfReport from './components/perf-report/PerfReport';
 import Home from './components/home/Home';
 import NotFound from './components/not-found/NotFound';
@@ -17,7 +17,7 @@ import PerformanceDashboard from './components/performance-dashboard/Performance
 import Notification from './components/notfication/Notification';
 import AddReport from './components/add-report/AddReport';
 import AddTeamForm from './components/add-team/AddTeamForm';
-import ShowReport from './components/show-report/ShowReport';
+import ReportDetail from './components/report/ReportDetail';
 
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -33,8 +33,8 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route exact path="/performance" component={PerformanceDashboard} />
           <Route exact path="/reporting/performance-dashboard" component={PerfReport} />
-          <Route exact path="/reporting/all" component={ShowReports} />
-          <Route exact path="/report/:id" component={ShowReport} />
+          <Route exact path="/reporting/all" component={ReportList} />
+          <Route exact path="/report/:id" component={ReportDetail} />
           <Route exact path="/reporting/add-report" component={AddReport} />
           <Route exact path="/team/add-team" component={AddTeamForm} />
           <Route exact path="*" component={NotFound} />
