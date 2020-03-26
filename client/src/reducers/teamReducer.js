@@ -2,7 +2,7 @@ import {
   GET_TEAMS,
   GET_TEAM, ADD_TEAM,
   LOADING_TEAM,
-  CLEAR_TEAM_MESSAGE
+  CLEAR_TEAM_MESSAGE, SET_CURRENT_TEAM
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +36,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         existingTeams: action.payload.existingTeams,
+        isLoading: false
+      };
+    case SET_CURRENT_TEAM:
+      // TODO this is same as GET_TEAM which needs to be fixed!
+      return {
+        ...state,
+        currentTeam: action.payload,
         isLoading: false
       };
     case LOADING_TEAM:

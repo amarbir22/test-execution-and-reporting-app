@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
@@ -7,7 +7,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
-import { getTeam } from '../../actions/teamActions';
+import { setCurrentTeam, getTeam } from '../../actions/teamActions';
+
 
 const AddTeam = ({
   existingTeams,
@@ -15,13 +16,26 @@ const AddTeam = ({
 }) => {
   const dispatch = useDispatch();
   const [teamNameDropdown, setTeamNameDropdown] = useState('Select Team');
+  const teamData = useSelector((state) => state.team);
 
-  function onSelectTeam(e) {
-    // TODO: Input Validation
-    if (e !== '') {
-      dispatch(getTeam(e));
+
+  const setCurrentTeamFromStore = (id) => {
+    // Check if team already exists in tea
+    const team = teamData.existingTeams.find((t) => t._id === id);
+    if (team) {
+      dispatch(setCurrentTeam(team));
+    } else {
+      // TODO this use case will most likely never occur. Need to delete at some point.
+      dispatch(getTeam(id));
     }
-    setTeamNameDropdown(existingTeams.filter((t) => t._id === e)[0].teamName);
+  };
+
+  function onSelectTeam(id) {
+    // TODO: Input Validation
+    if (id !== '') {
+      setCurrentTeamFromStore(id);
+    }
+    setTeamNameDropdown(existingTeams.filter((t) => t._id === id)[0].teamName);
   }
 
   return (

@@ -12,8 +12,12 @@ import { deleteReportById, getAllReports } from '../../actions/reportActions';
 
 const ReportList = () => {
   const report = useSelector((state) => state.report);
+  const currentTeam = useSelector((state) => state.team.currentTeam);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedRowData, setSelectedRowData] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -41,6 +45,24 @@ const ReportList = () => {
     dispatch(deleteReportById(data._id));
   };
 
+  const showDeleteAction = (data) => {
+    if (currentTeam.teamName && currentTeam.teamName === data.metaData.teamName) {
+      return (
+        <Popconfirm
+          title="Are you sure delete this report?"
+          onConfirm={() => {
+            onDeleteReport(data);
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteOutlined />} />
+        </Popconfirm>
+      );
+    }
+    return undefined;
+  };
+
   const columns = [
     {
       title: 'Team Name',
@@ -55,13 +77,7 @@ const ReportList = () => {
       title: 'Application',
       dataIndex: ['metaData', 'appName'],
       key: 'appName',
-      filters: [{
-        text: 'Joe',
-        value: 'Joe'
-      }, {
-        text: 'Jim',
-        value: 'Jim'
-      }],
+      filters: [],
       filteredValue: filteredInfo.value || null,
       onFilter: (value, record) => record.appName.includes(value),
       sorter: (a, b) => a.metaData.appName.localeCompare(b.metaData.appName),
@@ -116,29 +132,46 @@ const ReportList = () => {
           {
             showReportFileLink(data)
           }
-          <Popconfirm
-            title="Are you sure delete this report?"
-            onConfirm={() => { onDeleteReport(data); }}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button icon={<DeleteOutlined />} />
-          </Popconfirm>
+          {
+            showDeleteAction(data)
+          }
         </span>
       )
     }
   ];
 
+  const rowSelection = {
+    onChange: (keyIndex, rowData) => {
+      setSelectedRowKeys(keyIndex);
+      setSelectedRowData(rowData);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      // Column configuration not to be checked
+      name: record.name
+    })
+  };
+  const hasSelected = selectedRowKeys.length > 0;
+
   return (
     <>
       <div className="container">
         <h1>View Test Reports</h1>
+        <div id="compare-action">
+          <Button type="primary" disabled={!hasSelected} loading={report.isLoading} to>
+            Reload
+          </Button>
+        </div>
         <div>
           <Table
             loading={report.isLoading}
             columns={columns}
-            dataSource={report.allReports.map((rp) => rp)}
+            dataSource={report.allReports}
             onChange={handleChange}
+            rowKey={(record) => record._id}
+            rowSelection={{
+              ...rowSelection
+            }}
           />
         </div>
       </div>

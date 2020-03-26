@@ -1,14 +1,20 @@
 import {
   ADD_REPORT,
-  CLEAR_FILE, GET_ALL_REPORTS, LOADING_ALL_REPORTS, CLEAR_MESSAGE, GET_JSON_REPORT, DELETE_REPORT
+  CLEAR_FILE,
+  GET_ALL_REPORTS,
+  LOADING_ALL_REPORTS,
+  CLEAR_MESSAGE,
+  GET_JSON_REPORT,
+  DELETE_REPORT,
+  GET_JSON_REPORTS
 } from '../actions/types';
 
 const initialState = {
   message: '',
   recentReport: {},
   allReports: [], // TODO Need separate State Object
-  jsonReport: {
-  },
+  jsonReport: {},
+  jsonReports: [], // TODO merge both states
   isLoading: true
 };
 
@@ -41,6 +47,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         jsonReport: action.payload.jsonReport,
+        isLoading: false
+      };
+    case GET_JSON_REPORTS:
+      return {
+        ...state,
+        jsonReports: action.payload.jsonReports,
+        message: action.payload.message,
         isLoading: false
       };
     case CLEAR_MESSAGE:

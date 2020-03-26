@@ -12,6 +12,12 @@
     "lint:fix": "eslint client/src --fix",
     "build": "webpack -p"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint --fix"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amarbir22/test-execution-and-reporting-app.git"
@@ -79,6 +85,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "concurrently": "^5.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.20.1",
@@ -86,13 +93,13 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "glob": "^7.1.6",
+    "husky": "^4.2.3",
     "mini-css-extract-plugin": "^0.9.0",
     "purgecss-webpack-plugin": "^2.1.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "concurrently": "^5.1.0"
+    "webpack-dev-server": "^3.10.3"
   }
 }

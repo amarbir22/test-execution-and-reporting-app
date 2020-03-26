@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddTeam from '../add-team/AddTeam';
 import { getAllTeams } from '../../actions/teamActions';
+import Dashboard from '../dashboard/Dashboard';
 
 const Home = () => {
   const teamData = useSelector((state) => state.team);
@@ -20,6 +21,7 @@ const Home = () => {
           ? undefined : existingTeams}
         isLoading={isLoading}
       />
+      <Dashboard />
     </>
   );
 };

@@ -4,8 +4,8 @@ import moment from 'moment';
 
 import {
   GET_ERRORS,
-  ADD_REPORT, GET_ALL_REPORTS,
-  LOADING_ALL_REPORTS, CLEAR_ERRORS, LOADING_JSON_REPORT, GET_JSON_REPORT, DELETE_REPORT
+  ADD_REPORT, GET_ALL_REPORTS, LOADING_ALL_REPORTS, CLEAR_ERRORS, LOADING_JSON_REPORT,
+  GET_JSON_REPORT, DELETE_REPORT, GET_JSON_REPORTS
 } from './types';
 
 // Get current profile
@@ -73,6 +73,21 @@ export const getJsonReportByReportId = (id) => (dispatch) => {
     .get(`/api/report/jsonReport/${id}`)
     .then((res) => dispatch({
       type: GET_JSON_REPORT,
+      payload: res.data
+    }))
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }));
+};
+
+export const getJsonReportsByReportIds = (ids) => (dispatch) => {
+  dispatch({ type: LOADING_JSON_REPORT });
+
+  axios
+    .post('/api/report/jsonReports', ids)
+    .then((res) => dispatch({
+      type: GET_JSON_REPORTS,
       payload: res.data
     }))
     .catch((err) => dispatch({

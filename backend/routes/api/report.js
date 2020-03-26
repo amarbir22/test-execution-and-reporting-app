@@ -26,12 +26,31 @@ router.get('/', async (req, res) => {
 // GET jsonReport based on report id
 router.get('/jsonReport/:id', async (req, res) => {
   try {
-    const jsonReport = await JsonReport.findOne({ report: req.params.id }).populate();
+    const jsonReport = await JsonReport.findOne({ report: req.params.id })
+      .populate('report');
 
     return res.status(200)
       .send({
         jsonReport: (jsonReport) || undefined,
         message: 'Successfully retrieved jsonReport'
+      });
+  } catch (err) {
+    return res.status(500)
+      .send({ errorMessage: `Server side error ${err.message}` });
+  }
+});
+
+// GET jsonReports based on report ids
+router.post('/jsonReports', async (req, res) => {
+  try {
+    const { ids } = req.body;
+    console.log('ids', ids);
+    const jsonReports = await JsonReport.find({ report: { $in: ids } }).populate('report');
+
+    return res.status(200)
+      .send({
+        jsonReports: (jsonReports) || undefined,
+        message: 'Successfully retrieved jsonReports'
       });
   } catch (err) {
     return res.status(500)

@@ -66,13 +66,6 @@ const ReportSchema = new Schema({
       serverFilePath: {
         type: String
       }
-    },
-    jsonReport: {
-      metaData: {
-        contentType: {
-          type: String
-        }
-      }
     }
   }
 });

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Card from 'antd/es/card';
 import { getJsonReportByReportId } from '../../actions/reportActions';
 import ReportFileTable from './ReportFileTable';
+import ReportDescription from './ReportDescription';
 
 const ReportDetail = () => {
   const { id } = useParams();
-  const [columns, setColumns] = useState([]);
   const { jsonReport } = useSelector((state) => state.report);
   const dispatch = useDispatch();
 
@@ -14,32 +15,14 @@ const ReportDetail = () => {
     dispatch(getJsonReportByReportId(id));
   }, []);
 
-  useEffect(() => {
-    const cols = [];
-    if (jsonReport && jsonReport.content) {
-      Object.keys(jsonReport.content[0])
-        .map((header) => cols.push(
-          {
-            title: header,
-            dataIndex: header,
-            key: header
-          }
-        ));
-    }
-    setColumns(cols);
-  }, [jsonReport]);
-
-  const getJsonReportContent = (data) => {
-    if (!data) {
-      return [];
-    }
-    return data.content || [];
-  };
-
   return (
-    <div className="container">
-      <h1>Report Placeholder</h1>
-      <ReportFileTable columns={columns} data={getJsonReportContent(jsonReport)} id={id} />
+    <div className="container mt-3">
+      <ReportDescription report={jsonReport.report} />
+      <Card
+        title="Performance KPIs"
+      >
+        <ReportFileTable data={jsonReport.content} id={id} />
+      </Card>
     </div>
   );
 };
