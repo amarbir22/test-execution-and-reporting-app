@@ -9,25 +9,35 @@ const ReportDescription = (props) => {
 
   return (
     <div className="mb-2">
-      <Descriptions bordered title="Report Info" size="small">
-        <Descriptions.Item label="Team">{metaData.teamName}</Descriptions.Item>
-        <Descriptions.Item label="App">{metaData.appName}</Descriptions.Item>
-        <Descriptions.Item label="Type">{metaData.testType}</Descriptions.Item>
-        <Descriptions.Item
-          label="Environment"
-        >
+      <Descriptions bordered title="Report description" size="small">
+        <Descriptions.Item key={metaData.teamName} label="Team">
+          {metaData.teamName}
+        </Descriptions.Item>
+        <Descriptions.Item key={metaData.appName} label="App">
+          {metaData.appName}
+        </Descriptions.Item>
+        <Descriptions.Item key={metaData.testType} label="Type">
+          {metaData.testType}
+        </Descriptions.Item>
+        <Descriptions.Item key={metaData.testEnvName} label="Environment">
           {metaData.testEnvName}
           {' on '}
           {metaData.testEnvZone}
         </Descriptions.Item>
-        <Descriptions.Item label="When">
+        <Descriptions.Item label="When" key={metaData.executionDate}>
           {metaData.executionDate}
           {metaData.executionTime}
         </Descriptions.Item>
-        <Descriptions.Item label="Automated">{report.isAutomated.toString()}</Descriptions.Item>
+        <Descriptions.Item label="Automated" key={report.isAutomated.toString()}>
+          {report.isAutomated.toString()}
+        </Descriptions.Item>
         {
           report.testNotes
-          && <Descriptions.Item label="Notes">{report.testNotes}</Descriptions.Item>
+          && (
+            <Descriptions.Item label="Notes" key={report.testNotes}>
+              {report.testNotes}
+            </Descriptions.Item>
+          )
         }
       </Descriptions>
     </div>
@@ -38,10 +48,15 @@ ReportDescription.propTypes = {
   report: PropTypes.shape({
     isAutomated: PropTypes.bool,
     testNotes: PropTypes.string,
-    metaData: {
+    metaData: PropTypes.shape({
       teamName: PropTypes.string,
-      appName: PropTypes.string
-    }
+      appName: PropTypes.string,
+      testType: PropTypes.string,
+      testEnvName: PropTypes.string,
+      testEnvZone: PropTypes.string,
+      executionDate: PropTypes.string,
+      executionTime: PropTypes.string
+    })
   })
 };
 

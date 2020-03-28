@@ -13,7 +13,9 @@ const Dashboard = () => {
     if (!currentTeam.teamName) {
       return 'select a team';
     }
-    return reports.allReports.filter((r) => r.metaData.teamName === currentTeam.teamName).length;
+    return reports.allReports.filter((r) => r.metaData.teamName === currentTeam.teamName)
+      .length
+      .toString();
   };
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const Dashboard = () => {
   return (
     <div className="container">
       <ReportStats
-        totalReportCount={reports.allReports.length}
+        totalReportCount={reports.allReports.length.toString()}
         totalTeamReportCount={getTotalTeamReports()}
       />
     </div>

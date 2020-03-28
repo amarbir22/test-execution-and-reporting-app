@@ -7,7 +7,9 @@ import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import Button from 'antd/es/button';
 import Popconfirm from 'antd/es/popconfirm';
+import Card from 'antd/es/card';
 import { deleteReportById, getAllReports } from '../../actions/reportActions';
+import ReportCompare from './ReportCompare';
 
 
 const ReportList = () => {
@@ -62,6 +64,7 @@ const ReportList = () => {
     }
     return undefined;
   };
+
 
   const columns = [
     {
@@ -146,34 +149,30 @@ const ReportList = () => {
       setSelectedRowData(rowData);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      // Column configuration not to be checked
-      name: record.name
+      disabled: record.metaData.testType.toString() !== 'performance',
+      name: record.metaData.testType
     })
   };
   const hasSelected = selectedRowKeys.length > 0;
 
   return (
     <>
-      <div className="container">
-        <h1>View Test Reports</h1>
-        <div id="compare-action">
-          <Button type="primary" disabled={!hasSelected} loading={report.isLoading} to>
-            Reload
-          </Button>
-        </div>
+      <div className="container mt-3">
         <div>
-          <Table
-            loading={report.isLoading}
-            columns={columns}
-            dataSource={report.allReports}
-            onChange={handleChange}
-            rowKey={(record) => record._id}
-            rowSelection={{
-              ...rowSelection
-            }}
-          />
+          <Card title="All Reports">
+            <Table
+              loading={report.isLoading}
+              columns={columns}
+              dataSource={report.allReports}
+              onChange={handleChange}
+              rowKey={(record) => record._id}
+              rowSelection={{
+                ...rowSelection
+              }}
+            />
+          </Card>
         </div>
+        <ReportCompare ids={selectedRowKeys} hasSelected={hasSelected} />
       </div>
     </>
   );

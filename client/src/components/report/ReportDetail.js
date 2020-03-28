@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'antd/es/card';
 import { getJsonReportByReportId } from '../../actions/reportActions';
-import ReportFileTable from './ReportFileTable';
+import GenericReportTable from './GenericReportTable';
 import ReportDescription from './ReportDescription';
 
 const ReportDetail = () => {
@@ -21,7 +21,7 @@ const ReportDetail = () => {
       <Card
         title="Performance KPIs"
       >
-        <ReportFileTable data={jsonReport.content} id={id} />
+        <GenericReportTable data={jsonReport.content} id={id} />
       </Card>
     </div>
   );

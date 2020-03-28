@@ -85,7 +85,7 @@ export const getJsonReportsByReportIds = (ids) => (dispatch) => {
   dispatch({ type: LOADING_JSON_REPORT });
 
   axios
-    .post('/api/report/jsonReports', ids)
+    .post('/api/report/jsonReports', { ids })
     .then((res) => dispatch({
       type: GET_JSON_REPORTS,
       payload: res.data
