@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Cell, Label, Legend, Pie, PieChart
+  Cell, Label, Legend, Pie, PieChart, ResponsiveContainer
 } from 'recharts';
 import PropTypes from 'prop-types';
 
@@ -15,10 +15,11 @@ const sumOfValues = (data) => {
 };
 
 const CustomPieChart = ({ data }) => (
-  <div className="align-content-center ml-4">
+  <ResponsiveContainer className="align-content-center"
+                       minHeight={180}
+                       minWidth={180}
+  >
     <PieChart
-      width={300}
-      height={230}
       data={data}
     >
       <Legend />
@@ -44,7 +45,7 @@ const CustomPieChart = ({ data }) => (
         }
       </Pie>
     </PieChart>
-  </div>
+  </ResponsiveContainer>
 );
 
 CustomPieChart.propTypes = {

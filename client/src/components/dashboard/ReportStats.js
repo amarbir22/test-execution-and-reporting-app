@@ -11,12 +11,12 @@ const ReportStats = (props) => {
   return (
     <div className="container">
       <Row className="site-card-border-less-wrapper">
-        <Col>
+        <Col className="col-sm">
           <Card title="Teams">
             <CustomPieChart data={teamReportCountData} />
           </Card>
         </Col>
-        <Col>
+        <Col className="col-sm">
           <Card title="Test Types">
             <CustomPieChart data={teamReportTypesData} />
           </Card>
