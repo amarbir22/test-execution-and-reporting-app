@@ -4,7 +4,7 @@
   "description": "TEAR is a MERN application for Test Execution and Reporting. Initially the goal is to archive JMeter performance reports and provide insights into performance metrics and compare reports. Future releases will have features to execute tests from a central QA Dashboard",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start:client": "webpack-dev-server --config ./webpack.config.js --mode development",
     "start:server": "nodemon server.js --disable-host-check",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
@@ -73,7 +73,8 @@
     "redux-thunk": "^2.3.0",
     "url-loader": "^3.0.0",
     "uuid": "^3.4.0",
-    "validator": "^12.2.0"
+    "validator": "^12.2.0",
+    "recharts": "^1.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -94,6 +95,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "glob": "^7.1.6",
     "husky": "^4.2.3",
+    "jest": "^25.2.3",
     "mini-css-extract-plugin": "^0.9.0",
     "purgecss-webpack-plugin": "^2.1.0",
     "sass-loader": "^8.0.2",

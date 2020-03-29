@@ -1,46 +1,45 @@
 import React from 'react';
-import { Statistic } from 'antd/es';
-
 import { Col, Row } from 'react-bootstrap';
-import TeamOutlined from '@ant-design/icons/lib/icons/TeamOutlined';
-import UsergroupAddOutlined from '@ant-design/icons/lib/icons/UsergroupAddOutlined';
 import PropTypes from 'prop-types';
+import Card from 'antd/es/card';
+import CustomPieChart from '../common/charts/CustomPieChart';
 
 
 const ReportStats = (props) => {
-  const { totalReportCount, totalTeamReportCount } = props;
+  const { teamReportCountData, teamReportTypesData } = props;
 
   return (
-    <div className="container ">
-      <h4>Quality Stats</h4>
-      <Row className="">
-        <Col className="col-sm-auto">
-          <Statistic
-            title="All Reports"
-            value={totalReportCount}
-            prefix={<UsergroupAddOutlined />}
-          />
+    <div className="container">
+      <Row className="site-card-border-less-wrapper">
+        <Col>
+          <Card title="Teams">
+            <CustomPieChart data={teamReportCountData} />
+          </Card>
         </Col>
         <Col>
-          <Statistic
-            title="Team Reports"
-            value={totalTeamReportCount}
-            prefix={<TeamOutlined />}
-          />
+          <Card title="Test Types">
+            <CustomPieChart data={teamReportTypesData} />
+          </Card>
         </Col>
       </Row>
     </div>
   );
 };
 
+const chartDataShape = PropTypes.shape({
+  name: PropTypes.string,
+  value: PropTypes.number
+});
+
 ReportStats.propTypes = {
-  totalReportCount: PropTypes.string,
-  totalTeamReportCount: PropTypes.string
+  teamReportCountData: PropTypes.arrayOf(chartDataShape),
+  teamReportTypesData: PropTypes.arrayOf(chartDataShape)
 };
 
 ReportStats.defaultProps = {
-  totalReportCount: '',
-  totalTeamReportCount: ''
+  teamReportCountData: [],
+  teamReportTypesData: []
 };
+
 
 export default ReportStats;

@@ -18,6 +18,22 @@ const Dashboard = () => {
       .toString();
   };
 
+  const getReportsByTeams = () => {
+    const teamNames = [...new Set(reports.allReports.map((r) => r.metaData.teamName))];
+    return teamNames.map((name) => ({
+      name,
+      value: reports.allReports.filter((r) => r.metaData.teamName === name).length
+    }));
+  };
+
+  const getReportsByType = () => {
+    const reportTypes = [...new Set(reports.allReports.map((r) => r.metaData.testType))];
+    return reportTypes.map((name) => ({
+      name,
+      value: reports.allReports.filter((r) => r.metaData.testType === name).length
+    }));
+  };
+
   useEffect(() => {
     dispatch(getAllReports());
   }, []);
@@ -27,6 +43,8 @@ const Dashboard = () => {
       <ReportStats
         totalReportCount={reports.allReports.length.toString()}
         totalTeamReportCount={getTotalTeamReports()}
+        teamReportCountData={getReportsByTeams()}
+        teamReportTypesData={getReportsByType()}
       />
     </div>
   );

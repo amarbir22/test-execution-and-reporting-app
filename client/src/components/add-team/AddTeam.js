@@ -39,7 +39,7 @@ const AddTeam = ({
   }
 
   return (
-    <div className="container mt-3" id="add-team">
+    <div className="container-fluid mt-3" id="add-team">
       <section className="jumbotron text-center">
         <div className="container container-sm">
           <h2 className="jumbotron-heading">
