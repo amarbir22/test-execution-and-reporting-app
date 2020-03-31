@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 
 
 function AlertMessage(props) {
   const [show, setShow] = useState(true);
   const {
-    alertHeading, alertMessage, isShowAlertButton, alertVariant, closeAction
+    alertHeading, alertMessage, alertVariant, closeAction
   } = props;
 
   useEffect(() => {
@@ -23,7 +22,7 @@ function AlertMessage(props) {
 
   if (show) {
     return (
-      <Alert variant={alertVariant} onClose={onAlertClose} dismissible className="mb-0 rounded">
+      <Alert variant={alertVariant} onClose={onAlertClose} dismissible className="alertMsg mb-0 rounded">
         {
           alertHeading
           && (
@@ -37,22 +36,17 @@ function AlertMessage(props) {
     );
   }
 
-  if (isShowAlertButton) {
-    return <Button onClick={() => setShow(true)}>Show Alert</Button>;
-  }
-  return null;
+  return (null);
 }
 
 AlertMessage.propTypes = {
   alertHeading: PropTypes.string,
   alertMessage: PropTypes.string.isRequired,
-  isShowAlertButton: PropTypes.bool,
   alertVariant: PropTypes.string.isRequired,
   closeAction: PropTypes.func
 };
 
 AlertMessage.defaultProps = {
-  isShowAlertButton: false,
   alertHeading: null,
   closeAction: null
 };

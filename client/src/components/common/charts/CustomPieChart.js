@@ -15,9 +15,10 @@ const sumOfValues = (data) => {
 };
 
 const CustomPieChart = ({ data }) => (
-  <ResponsiveContainer className="align-content-center"
-                       minHeight={180}
-                       minWidth={180}
+  <ResponsiveContainer
+    className="align-content-center"
+    minHeight={180}
+    minWidth={180}
   >
     <PieChart
       data={data}
