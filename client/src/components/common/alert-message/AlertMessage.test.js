@@ -5,40 +5,60 @@ import AlertMessage from './AlertMessage';
 
 
 describe('Alert Message', () => {
-  const msg = 'This is a message';
-  const heading = 'this is a title';
-  const alertWithMessage = shallow(<AlertMessage alertMessage={msg} alertVariant="success" />);
-  const alertWithMessageAndHeading = shallow(<AlertMessage alertHeading={heading} alertMessage={msg} alertVariant="success" />);
+  let component;
 
+  const props = {
+    alertHeading: 'this is a title',
+    alertMessage: 'This is a message',
+    alertVariant: 'success'
+  };
+
+  beforeEach(() => {
+    component = shallow(<AlertMessage
+      alertHeading={props.alertHeading}
+      alertMessage={props.alertMessage}
+      alertVariant={props.alertVariant}
+    />);
+  });
 
   it('should render the Alert Component correctly', () => {
-    const wrapper = alertWithMessage.find('.alertMsg');
+    const wrapper = component.find('.alertMsg');
     expect(wrapper.length)
       .toBe(1);
   });
 
   it('should render alert message correctly', () => {
-    const wrapper = alertWithMessageAndHeading.find('AlertHeading');
-    expect(wrapper.text()).toEqual(heading);
+    const wrapper = component.find('AlertHeading');
+    expect(wrapper.text())
+      .toEqual(props.alertHeading);
   });
 
   it('should render alert title correctly', () => {
-    const wrapper = alertWithMessageAndHeading.find('Alert').childAt(1);
-    expect(wrapper.text()).toEqual(msg);
+    const wrapper = component.find('Alert')
+      .childAt(1);
+    expect(wrapper.text())
+      .toEqual(props.alertMessage);
   });
 
   it('should have close button', () => {
-    const component = render(<AlertMessage alertMessage={msg} alertVariant="success" />);
-    const wrapper = component.find('button.close');
-    expect(wrapper.length).toBe(1);
+    const renderedComponent = render(<AlertMessage
+      alertMessage={props.alertMessage}
+      alertVariant="success"
+    />);
+    const wrapper = renderedComponent.find('button.close');
+    expect(wrapper.length)
+      .toBe(1);
   });
 
   it('should close', () => {
-    const component = mount(<AlertMessage alertMessage={msg} alertVariant="success" />);
-    const button = component.find('button.close');
+    const mountComponent = mount(<AlertMessage
+      alertMessage={props.alertMessage}
+      alertVariant="success"
+    />);
+    const button = mountComponent.find('button.close');
     button.simulate('click');
 
-    const wrapper = component.find('.alertMsg');
+    const wrapper = mountComponent.find('.alertMsg');
     expect(wrapper)
       .toEqual({});
   });

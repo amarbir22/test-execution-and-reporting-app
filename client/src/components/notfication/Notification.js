@@ -13,7 +13,7 @@ export default () => {
 
   // TODO: add all notifications is a array in redux
   return (
-    <div>
+    <div id="notifications">
       <div id="error-notice">
         {
           errors.errorMessage

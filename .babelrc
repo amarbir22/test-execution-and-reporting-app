@@ -5,5 +5,13 @@
   ],
   "plugins": [
     ["import", {"libraryName": "antd", "style": true} ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ]
+    }
+  }
 }

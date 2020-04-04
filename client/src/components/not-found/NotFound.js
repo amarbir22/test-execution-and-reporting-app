@@ -5,7 +5,7 @@ import image from '../../../public/static/images/page-not-found-4.png';
 
 
 export default () => (
-  <div className="container py-md-4">
+  <div className="container py-md-4 not-found">
     <div className="page-wrap d-flex flex-row align-items-center">
       <div className="container">
         <div className="row justify-content-center">

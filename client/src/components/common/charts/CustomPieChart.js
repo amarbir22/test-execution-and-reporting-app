@@ -40,11 +40,11 @@ const CustomPieChart = ({ data }) => (
         label
         isAnimationActive={false}
       >
-        <Label value={sumOfValues(data)} position="center" style={{ fontSize: '20px' }} />
         {
           data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
         }
       </Pie>
+      <Label value={sumOfValues(data)} position="center" style={{ fontSize: '20px' }} />
     </PieChart>
   </ResponsiveContainer>
 );
