@@ -5,6 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const glob = require('glob');
 
 const API_HOST = process.env.API_HOST || 'http://localhost:5000';
+// Constants
+const PORT = process.env.PORT || '8080';
+const HOST = process.env.HOST || '0.0.0.0';
 
 const PATHS = {
   src: path.join(__dirname, 'client/src')
@@ -48,13 +51,6 @@ module.exports = {
     ]
   },
   plugins: [
-   // TODO: need to purge css.
-    // new MiniCssExtractPlugin({
-    //   filename: '[name].css'
-    // }),
-    // new PurgecssPlugin({
-    //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true })
-    // }),
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
       favicon: './client/public/static/images/favicon.ico'
@@ -64,6 +60,8 @@ module.exports = {
     contentBase: path.resolve(__dirname, './dist'),
     historyApiFallback: true,
     disableHostCheck: true,
+    host: HOST,
+    port: PORT,
     proxy: {
       '/api': {
         target: API_HOST,

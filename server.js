@@ -5,6 +5,8 @@ const connectDB = require('./config/db');
 
 
 const PORT = process.env.PORT || 5000;
+// Constants
+const HOST = '0.0.0.0';
 require('dotenv')
   .config();
 
@@ -35,4 +37,5 @@ app.use('/team', require('./backend/routes/api/team'));
 
 
 // eslint-disable-next-line no-console
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
