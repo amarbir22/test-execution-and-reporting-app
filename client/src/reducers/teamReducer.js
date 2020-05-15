@@ -1,14 +1,16 @@
 import {
+  ADD_TEAM,
+  CLEAR_TEAM_MESSAGE,
+  GET_TEAM,
   GET_TEAMS,
-  GET_TEAM, ADD_TEAM,
   LOADING_TEAM,
-  CLEAR_TEAM_MESSAGE, SET_CURRENT_TEAM
+  SET_CURRENT_TEAM
 } from '../actions/types';
 
 const initialState = {
   existingTeams: [],
   currentTeam: {
-    _id: '',
+    id: '',
     teamName: undefined,
     teamEmail: '',
     teamApps: [],

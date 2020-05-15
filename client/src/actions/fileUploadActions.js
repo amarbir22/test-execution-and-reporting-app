@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 import {
-  GET_ERRORS,
-  ADD_FILE, CLEAR_ERRORS,
-  CLEAR_FILE
+  ADD_FILE, CLEAR_ERRORS, CLEAR_FILE, GET_ERRORS
 } from './types';
 
 // Get current profile

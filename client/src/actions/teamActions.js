@@ -2,13 +2,13 @@ import axios from 'axios';
 
 
 import {
-  GET_ERRORS,
-  GET_TEAMS,
-  GET_TEAM,
-  LOADING_TEAM,
-  SET_CURRENT_TEAM,
   ADD_TEAM,
-  CLEAR_TEAM_MESSAGE
+  CLEAR_TEAM_MESSAGE,
+  GET_ERRORS,
+  GET_TEAM,
+  GET_TEAMS,
+  LOADING_TEAM,
+  SET_CURRENT_TEAM
 } from './types';
 
 export const getAllTeams = () => (dispatch) => {

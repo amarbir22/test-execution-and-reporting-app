@@ -13,24 +13,24 @@ const Dashboard = () => {
     if (!currentTeam.teamName) {
       return 'select a team';
     }
-    return reports.allReports.filter((r) => r.metaData.teamName === currentTeam.teamName)
+    return reports.allReports.filter((r) => r.teamName === currentTeam.teamName)
       .length
       .toString();
   };
 
   const getReportsByTeams = () => {
-    const teamNames = [...new Set(reports.allReports.map((r) => r.metaData.teamName))];
+    const teamNames = [...new Set(reports.allReports.map((r) => r.teamName))];
     return teamNames.map((name) => ({
       name,
-      value: reports.allReports.filter((r) => r.metaData.teamName === name).length
+      value: reports.allReports.filter((r) => r.teamName === name).length
     }));
   };
 
   const getReportsByType = () => {
-    const reportTypes = [...new Set(reports.allReports.map((r) => r.metaData.testType))];
+    const reportTypes = [...new Set(reports.allReports.map((r) => r.testType))];
     return reportTypes.map((name) => ({
       name,
-      value: reports.allReports.filter((r) => r.metaData.testType === name).length
+      value: reports.allReports.filter((r) => r.testType === name).length
     }));
   };
 

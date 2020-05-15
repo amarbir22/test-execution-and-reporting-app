@@ -72,7 +72,7 @@ function AddReport() {
 
   return (
     <>
-      <div className="container mt-3">
+      <div className="container-fluid mt-3">
         <Form onSubmit={handleSubmit(onSubmit)}>
           <h5 className="text-center">Tell us about your test</h5>
           <InputGroup className="mb-3">
@@ -147,10 +147,12 @@ function AddReport() {
                 >
                   <option value="">Select environment name</option>
                   <option value="stage">Stage</option>
+                  <option value="stage-stage">Stage-Stage</option>
                   <option value="qual">Qual</option>
-                  <option value="qual-live">Qual-Live</option>
+                  <option value="qual-stage">Qual-Stage</option>
                   <option value="dev">Dev</option>
                   <option value="prod">Prod</option>
+                  <option value="prod-stage">Prod-Stage</option>
                 </Form.Control>
                 <InputError errors={errors.testEnvName} />
               </Form.Group>

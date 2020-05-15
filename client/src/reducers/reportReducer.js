@@ -1,12 +1,12 @@
 import {
   ADD_REPORT,
   CLEAR_FILE,
-  GET_ALL_REPORTS,
-  LOADING_ALL_REPORTS,
   CLEAR_MESSAGE,
-  GET_JSON_REPORT,
   DELETE_REPORT,
-  GET_JSON_REPORTS
+  GET_ALL_REPORTS,
+  GET_JSON_REPORT,
+  GET_JSON_REPORTS,
+  LOADING_ALL_REPORTS
 } from '../actions/types';
 
 const initialState = {
@@ -64,7 +64,7 @@ export default function (state = initialState, action) {
     case DELETE_REPORT:
       return {
         ...state,
-        allReports: state.allReports.filter((rp) => rp._id !== action.payload.report._id),
+        allReports: state.allReports.filter((rp) => rp.id !== action.payload.report.id),
         message: action.payload.message
       };
     default:

@@ -37,18 +37,18 @@ const ReportList = () => {
       return undefined;
     }
     return (
-      <NavLink to={`/report/${data._id}`} style={{ marginRight: 16 }}>
+      <NavLink to={`/report/${data.id}`} style={{ marginRight: 16 }}>
         View Report
       </NavLink>
     );
   };
 
   const onDeleteReport = (data) => {
-    dispatch(deleteReportById(data._id));
+    dispatch(deleteReportById(data.id));
   };
 
   const showDeleteAction = (data) => {
-    if (currentTeam.teamName && currentTeam.teamName === data.metaData.teamName) {
+    if (currentTeam.teamName && currentTeam.teamName === data.teamName) {
       return (
         <Popconfirm
           title="Are you sure delete this report?"
@@ -69,48 +69,48 @@ const ReportList = () => {
   const columns = [
     {
       title: 'Team Name',
-      dataIndex: ['metaData', 'teamName'],
+      dataIndex: ['teamName'],
       key: 'teamName',
-      sorter: (a, b) => a.metaData.teamName.localeCompare(b.metaData.teamName),
+      sorter: (a, b) => a.teamName.localeCompare(b.teamName),
       sortOrder: sortedInfo.columnKey === 'teamName' && sortedInfo.order,
       ellipsis: true,
       hide: false
     },
     {
       title: 'Application',
-      dataIndex: ['metaData', 'appName'],
+      dataIndex: 'appName',
       key: 'appName',
       filters: [],
       filteredValue: filteredInfo.value || null,
       onFilter: (value, record) => record.appName.includes(value),
-      sorter: (a, b) => a.metaData.appName.localeCompare(b.metaData.appName),
+      sorter: (a, b) => a.appName.localeCompare(b.appName),
       sortOrder: sortedInfo.columnKey === 'appName' && sortedInfo.order,
       ellipsis: true
     },
     {
       title: 'Test Type',
-      dataIndex: ['metaData', 'testType'],
+      dataIndex: 'testType',
       key: 'testType',
-      sorter: (a, b) => a.metaData.testType.localeCompare(b.metaData.testType),
+      sorter: (a, b) => a.testType.localeCompare(b.testType),
       sortOrder: sortedInfo.columnKey === 'testType' && sortedInfo.order,
       ellipsis: true,
       hide: false
     },
     {
       title: 'Test Env Zone',
-      dataIndex: ['metaData', 'testEnvZone'],
+      dataIndex: 'testEnvZone',
       key: 'testEnvZone',
-      sorter: (a, b) => a.metaData.testEnvZone.localeCompare(b.metaData.testEnvZone),
+      sorter: (a, b) => a.testEnvZone.localeCompare(b.testEnvZone),
       sortOrder: sortedInfo.columnKey === 'testEnvZone' && sortedInfo.order,
       ellipsis: true,
       hide: false
     },
     {
       title: 'Execution Date',
-      dataIndex: ['metaData', 'executionDate'],
+      dataIndex: 'executionDate',
       key: 'executionDate',
-      sorter: (a, b) => moment(a.metaData.executionDate)
-        .unix() - moment(b.metaData.executionDate)
+      sorter: (a, b) => moment(a.executionDate)
+        .unix() - moment(b.executionDate)
         .unix(),
       sortOrder: sortedInfo.columnKey === 'executionDate' && sortedInfo.order,
       ellipsis: true,
@@ -118,10 +118,10 @@ const ReportList = () => {
     },
     {
       title: 'Execution Time',
-      dataIndex: ['metaData', 'executionTime'],
+      dataIndex: 'executionTime',
       key: 'executionTime',
-      sorter: (a, b) => moment(a.metaData.executionTime)
-        .unix() - moment(b.metaData.executionTime)
+      sorter: (a, b) => moment(a.executionTime)
+        .unix() - moment(b.executionTime)
         .unix(),
       sortOrder: sortedInfo.columnKey === 'executionTime' && sortedInfo.order,
       ellipsis: true,
@@ -149,15 +149,15 @@ const ReportList = () => {
       setSelectedRowData(rowData);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.metaData.testType.toString() !== 'performance',
-      name: record.metaData.testType
+      disabled: record.testType.toString() !== 'performance',
+      name: record.testType
     })
   };
   const hasSelected = selectedRowKeys.length > 0;
 
   return (
     <>
-      <div className="container mt-3">
+      <div className="container-fluid">
         <div>
           <Card title="All Reports">
             <Table
@@ -165,7 +165,7 @@ const ReportList = () => {
               columns={columns}
               dataSource={report.allReports}
               onChange={handleChange}
-              rowKey={(record) => record._id}
+              rowKey={(record) => record.id}
               rowSelection={{
                 ...rowSelection
               }}

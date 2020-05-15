@@ -15,25 +15,39 @@ const ReportCompare = (props) => {
     dispatch(getJsonReportsByReportIds(ids));
   };
 
-  const isMatchReportId = (value) => ids.some((id) => id === value.report._id);
+  // eslint-disable-next-line no-unused-vars
+  const isMatchReportId = (value) => ids.some((id) => id === value.report.id);
 
-  const getMergedReports = () => {
-    const reportsFromStore = report.jsonReports.filter(isMatchReportId);
-    const mergedReportsWithMeta = reportsFromStore.map((el) => {
-      const o = { ...el };
-      o.content = o.content.map((c) => ({
-        environment: `${el.report.metaData.testEnvName} on ${el.report.metaData.testEnvZone}`,
-        ...c,
-        reportId: o.report._id
-      }));
+  // const getMergedReports = () => {
+  //   const reportsFromStore = report.jsonReports.filter(isMatchReportId);
+  //   const mergedReportsWithMeta = reportsFromStore.map((el) => {
+  //     const o = { ...el };
+  //     o.content = o.content.map((c) => ({
+  //       environment: `${el.report.metaData.testEnvName} on ${el.report.metaData.testEnvZone}`,
+  //       ...c,
+  //       reportId: o.report.id
+  //     }));
+  //     return o;
+  //   });
+  //   if (mergedReportsWithMeta.length > 0) {
+  //     // Flatten multiple content arrays to generate a single array for table
+  //     return mergedReportsWithMeta.map((r) => r.content)
+  //       .flat(1);
+  //   }
+  //   return undefined;
+  // };
+
+  /**
+   * Display last 4 digit or report id and then report content
+   */
+  const joinReports = () => {
+    const mergedReports = report.jsonReports.map((jp) => jp.content.map((c) => {
+      const o = { ...c };
+      o.id = jp.id;
       return o;
-    });
-    if (mergedReportsWithMeta.length > 0) {
-      // Flatten multiple content arrays to generate a single array for table
-      return mergedReportsWithMeta.map((r) => r.content)
-        .flat(1);
-    }
-    return undefined;
+    }));
+
+    return mergedReports.flat(1);
   };
 
   return (
@@ -51,7 +65,7 @@ const ReportCompare = (props) => {
           Compare Reports
         </Button>
       </div>
-      <GenericReportTable data={getMergedReports()} id="merged" />
+      <GenericReportTable data={joinReports()} id="merged" />
     </Card>
   );
 };

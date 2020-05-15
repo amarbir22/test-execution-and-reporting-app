@@ -3,9 +3,15 @@ import moment from 'moment';
 
 
 import {
+  ADD_REPORT,
+  CLEAR_ERRORS,
+  DELETE_REPORT,
+  GET_ALL_REPORTS,
   GET_ERRORS,
-  ADD_REPORT, GET_ALL_REPORTS, LOADING_ALL_REPORTS, CLEAR_ERRORS, LOADING_JSON_REPORT,
-  GET_JSON_REPORT, DELETE_REPORT, GET_JSON_REPORTS
+  GET_JSON_REPORT,
+  GET_JSON_REPORTS,
+  LOADING_ALL_REPORTS,
+  LOADING_JSON_REPORT
 } from './types';
 
 // Get current profile
@@ -103,8 +109,10 @@ export const deleteReportById = (id) => (dispatch) => {
       type: DELETE_REPORT,
       payload: res.data
     }))
-    .catch((err) => dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
-    }));
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };

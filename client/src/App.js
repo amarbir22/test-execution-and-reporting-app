@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router, Route, Switch
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
@@ -16,7 +14,7 @@ import NotFound from './components/not-found/NotFound';
 import PerformanceDashboard from './components/performance-dashboard/PerformanceDashboard';
 import Notification from './components/notfication/Notification';
 import AddReport from './components/add-report/AddReport';
-import AddTeamForm from './components/add-team/AddTeamForm';
+import AddTeamForm from './components/team/AddTeamForm';
 import ReportDetail from './components/report/ReportDetail';
 
 

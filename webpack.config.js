@@ -4,9 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const PurgecssPlugin = require('purgecss-webpack-plugin');
 // const glob = require('glob');
 
+// Can be used to override api host
 const API_HOST = process.env.API_HOST || 'http://localhost:5000';
 // Constants
-const PORT = process.env.PORT || '8080';
+const PORT = process.env.PORT || '80';
 const HOST = process.env.HOST || '0.0.0.0';
 
 const PATHS = {
@@ -25,7 +26,7 @@ module.exports = {
     rules: [
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
@@ -44,7 +45,7 @@ module.exports = {
         test: /\.js$/,
         options: {
           plugins: [
-            ['import', { libraryName: 'antd', style: true }]
+            ['import', { libraryName: 'antd' }]
           ]
         }
       }
@@ -65,7 +66,6 @@ module.exports = {
     proxy: {
       '/api': {
         target: API_HOST,
-        pathRewrite: { '^/api': '' },
         secure: false
       },
       secure: false,

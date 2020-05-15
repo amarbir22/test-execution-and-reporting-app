@@ -16,7 +16,7 @@ const ReportDetail = () => {
   }, []);
 
   return (
-    <div className="container mt-3">
+    <div className="container-fluid">
       <ReportDescription report={jsonReport.report} />
       <Card
         title="Performance KPIs"

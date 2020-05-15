@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, render, mount } from 'enzyme';
+import { mount, render, shallow } from 'enzyme';
 
 import AlertMessage from './AlertMessage';
 
