@@ -8,6 +8,7 @@
     "start:client": "webpack-dev-server --config ./webpack.config.js --mode development",
     "start:server": "nodemon server.js --disable-host-check",
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:prod": "NODE_ENV=production PORT=5000 npm run start:server",
     "lint": "eslint client/src",
     "lint:fix": "eslint client/src --fix",
     "build": "webpack -p"
