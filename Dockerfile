@@ -11,10 +11,10 @@ COPY package*.json ./
 RUN npm install
 
 # Inform Docker that the container is listening on the specified port at runtime.
-EXPOSE 8080
+EXPOSE 80
 
 # Run the specified command within the container. This will start both BE and FE
-CMD ["npm", "start"]
+CMD ["npm","run", "start:prod"]
 
 # Copy the rest of your app's source code from your host to your image filesystem.
 COPY . .
